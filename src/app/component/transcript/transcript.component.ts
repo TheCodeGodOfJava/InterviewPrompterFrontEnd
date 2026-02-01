@@ -1,7 +1,8 @@
 // transcript.component.ts
 import { TextFieldModule } from '@angular/cdk/text-field';
 import { CommonModule } from '@angular/common';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, effect, signal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
@@ -9,8 +10,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { Subscription } from 'rxjs';
 import { TranscriptService, TranscriptUpdate } from '../../service/TranscriptService';
 
 @Component({
@@ -18,8 +17,6 @@ import { TranscriptService, TranscriptUpdate } from '../../service/TranscriptSer
   standalone: true,
   imports: [
     CommonModule,
-
-    // Material imports
     MatCardModule,
     MatChipsModule,
     MatIconModule,
@@ -27,58 +24,55 @@ import { TranscriptService, TranscriptUpdate } from '../../service/TranscriptSer
     MatProgressSpinnerModule,
     MatFormFieldModule,
     MatInputModule,
-    MatSnackBarModule,
-
-    // CDK
     TextFieldModule,
   ],
   templateUrl: './transcript.component.html',
   styleUrl: './transcript.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TranscriptComponent implements OnInit, OnDestroy {
-  transcript: TranscriptUpdate = { fullText: '', version: 0, words: [] };
+export class TranscriptComponent {
+  // ── Main data signal ── updated from both HTTP and WebSocket
+  protected transcriptSignal = signal<TranscriptUpdate>({
+    fullText: '',
+    version: 0,
+    words: [],
+  });
+
+  // ── Derived / computed signals ── very efficient, only recalculate when needed
+  words = computed(() => this.transcriptSignal().words);
+  fullText = computed(() => this.transcriptSignal().fullText);
+  wordCount = computed(() => this.words().length);
+  isEmpty = computed(() => this.wordCount() === 0);
+
+  // Loading & error state (can also be signals if you want)
   isLoading = true;
   errorMessage: string | null = null;
 
-  private subscription!: Subscription;
-
-  constructor(private transcriptService: TranscriptService) {}
-
-  ngOnInit(): void {
-    // 1. Load initial transcript via HTTP
-    this.transcriptService.loadInitialTranscript().subscribe({
-      next: (data) => {
-        this.transcript = data;
-        this.isLoading = false;
-      },
-      error: (err) => {
-        console.error('Failed to load initial transcript', err);
-        this.errorMessage = 'Failed to load transcript. Trying live connection...';
-        this.isLoading = false;
-      },
+  constructor(private transcriptService: TranscriptService) {
+    // Convert observable → signal (once)
+    const liveTranscript = toSignal(this.transcriptService.transcript$, {
+      initialValue: { fullText: '', version: 0, words: [] },
     });
 
-    // 2. Subscribe to live WebSocket updates
-    this.subscription = this.transcriptService.transcript$.subscribe({
-      next: (update) => {
-        this.transcript = update;
+    effect(() => {
+      const update = liveTranscript();
+      if (update) {
+        this.transcriptSignal.set(update);
+        this.isLoading = false;
+        this.errorMessage = null;
+      }
+    });
+    // HTTP initial load (still uses subscribe because it's a one-time observable)
+    this.transcriptService.loadInitialTranscript().subscribe({
+      next: (data) => {
+        this.transcriptSignal.set(data);
         this.isLoading = false;
         this.errorMessage = null;
       },
-      error: (err) => {
-        console.error('WebSocket error', err);
-        this.errorMessage = 'Live connection lost. Reconnecting...';
+      error: () => {
+        this.errorMessage = 'Failed to load initial transcript...';
+        this.isLoading = false;
       },
     });
-  }
-
-  ngOnDestroy(): void {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
-  }
-
-  get wordCount(): number {
-    return this.transcript.words.length;
   }
 }

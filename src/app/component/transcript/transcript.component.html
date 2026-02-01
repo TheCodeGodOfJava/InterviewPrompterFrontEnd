@@ -25,7 +25,7 @@
     @if (!isLoading && !errorMessage) {
       <!-- Removable chips -->
       <mat-chip-listbox class="word-chips" aria-label="Transcript words">
-        @for (entry of transcript.words; track entry.index) {
+        @for (entry of words(); track entry.index) {
           <mat-chip-option color="primary" selected>
             {{ entry.word }}
             <button matChipRemove aria-label="'remove word'">
@@ -34,30 +34,15 @@
           </mat-chip-option>
         }
 
-        @if (wordCount === 0) {
+        @if (isEmpty()) {
           <mat-chip disabled>Waiting for speech...</mat-chip>
         }
-      </mat-chip-listbox>
-
-      <!-- Full text preview -->
-      <mat-form-field appearance="outline" class="full-text">
-        <mat-label>Full Transcript</mat-label>
-        <textarea
-          matInput
-          rows="6"
-          [value]="transcript.fullText"
-          readonly
-          cdkTextareaAutosize
-          #autosize="cdkTextareaAutosize"
-          cdkAutosizeMinRows="3"
-          cdkAutosizeMaxRows="10"
-        ></textarea>
-      </mat-form-field>
+      </mat-chip-listbox>     
 
       <!-- Status bar -->
       <div class="status">
-        <span>Words: {{ wordCount }}</span>
-        <span> • Version: {{ transcript.version }}</span>
+        <span>Words: {{ wordCount() }}</span>
+        <span> • Version: {{ transcriptSignal().version }}</span>
       </div>
     }
   </mat-card-content>
