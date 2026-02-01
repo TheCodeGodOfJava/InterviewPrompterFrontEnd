@@ -21,29 +21,16 @@
       </div>
     }
 
-    <!-- Main content -->
-    @if (!isLoading && !errorMessage) {
-      <!-- Removable chips -->
-      <mat-chip-listbox class="word-chips" aria-label="Transcript words">
-        @for (entry of words(); track entry.index) {
-          <mat-chip-option color="primary" selected>
-            {{ entry.word }}
-            <button matChipRemove aria-label="'remove word'">
-              <mat-icon>cancel</mat-icon>
-            </button>
-          </mat-chip-option>
-        }
+    <div class="word-list">
+      @for (entry of words(); track entry.index) {
+        <div class="word-row">
+          {{ entry.word }}
+        </div>
+      }
 
-        @if (isEmpty()) {
-          <mat-chip disabled>Waiting for speech...</mat-chip>
-        }
-      </mat-chip-listbox>     
-
-      <!-- Status bar -->
-      <div class="status">
-        <span>Words: {{ wordCount() }}</span>
-        <span> • Version: {{ transcriptSignal().version }}</span>
-      </div>
-    }
+      @if (isEmpty()) {
+        <div class="placeholder">Waiting for speech...</div>
+      }
+    </div>
   </mat-card-content>
 </mat-card>

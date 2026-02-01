@@ -5,7 +5,6 @@ import { ChangeDetectionStrategy, Component, computed, effect, signal } from '@a
 import { toSignal } from '@angular/core/rxjs-interop';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import { MatChipsModule } from '@angular/material/chips';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
@@ -18,7 +17,6 @@ import { TranscriptService, TranscriptUpdate } from '../../service/TranscriptSer
   imports: [
     CommonModule,
     MatCardModule,
-    MatChipsModule,
     MatIconModule,
     MatButtonModule,
     MatProgressSpinnerModule,
