@@ -1,9 +1,9 @@
 /* Force the component itself to behave as a constrained container */
 :host {
   display: block;                    /* important – makes :host a block-level element */
-  width: 30vw;                       /* set width here – on the component host */
+  width: 40vw;                       /* set width here – on the component host */
   min-width: 300px;                  /* prevent too narrow */
-  max-width: 30vw;
+  max-width: 40vw;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
