@@ -1,7 +1,27 @@
+/* Force the component itself to behave as a constrained container */
+:host {
+  display: block;                    /* important – makes :host a block-level element */
+  width: 30vw;                       /* set width here – on the component host */
+  min-width: 300px;                  /* prevent too narrow */
+  max-width: 30vw;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Now the card follows the host's width */
 .transcript-card {
-  max-width: 960px;
-  margin: 24px auto;
-  padding: 16px;
+  width: 100%;                       /* take 100% of :host */
+  height: 100%;
+  margin: 0;
+  border-radius: 0 8px 8px 0;
+  box-shadow: none;
+}
+
+/* Optional: remove any inherited left/right space */
+mat-card-content {
+  padding-left: 8px !important;      /* minimal left padding */
+  margin-left: 0 !important;
 }
 
 .word-chips {
