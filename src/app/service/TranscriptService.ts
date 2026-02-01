@@ -2,7 +2,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Client } from '@stomp/stompjs';
-import * as SockJS from 'sockjs-client';
+import SockJS from 'sockjs-client';
 import { BehaviorSubject, Observable } from 'rxjs';
 
 export interface WordEntry {
@@ -21,7 +21,7 @@ export interface TranscriptUpdate {
 })
 export class TranscriptService {
 
-  private client: Client;
+  private client!: Client;
   private transcriptSubject = new BehaviorSubject<TranscriptUpdate>({
     fullText: '',
     version: 0,
