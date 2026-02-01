@@ -1,0 +1,64 @@
+<!-- transcript.component.html -->
+<mat-card class="transcript-card">
+  <mat-card-header>
+    <mat-card-title>Live Ukrainian Speech Transcript</mat-card-title>
+    <mat-card-subtitle>Real-time recognition + editable words</mat-card-subtitle>
+  </mat-card-header>
+
+  <mat-card-content>
+    <!-- Loading / Error states -->
+    @if (isLoading) {
+      <div class="loading">
+        <mat-spinner diameter="48"></mat-spinner>
+        <p>Loading transcript...</p>
+      </div>
+    }
+
+    @if (errorMessage) {
+      <div class="error">
+        <mat-icon>error_outline</mat-icon>
+        <p>{{ errorMessage }}</p>
+      </div>
+    }
+
+    <!-- Main content -->
+    @if (!isLoading && !errorMessage) {
+      <!-- Removable chips -->
+      <mat-chip-listbox class="word-chips" aria-label="Transcript words">
+        @for (entry of transcript.words; track entry.index) {
+          <mat-chip-option color="primary" selected>
+            {{ entry.word }}
+            <button matChipRemove aria-label="'remove word'">
+              <mat-icon>cancel</mat-icon>
+            </button>
+          </mat-chip-option>
+        }
+
+        @if (wordCount === 0) {
+          <mat-chip disabled>Waiting for speech...</mat-chip>
+        }
+      </mat-chip-listbox>
+
+      <!-- Full text preview -->
+      <mat-form-field appearance="outline" class="full-text">
+        <mat-label>Full Transcript</mat-label>
+        <textarea
+          matInput
+          rows="6"
+          [value]="transcript.fullText"
+          readonly
+          cdkTextareaAutosize
+          #autosize="cdkTextareaAutosize"
+          cdkAutosizeMinRows="3"
+          cdkAutosizeMaxRows="10"
+        ></textarea>
+      </mat-form-field>
+
+      <!-- Status bar -->
+      <div class="status">
+        <span>Words: {{ wordCount }}</span>
+        <span> • Version: {{ transcript.version }}</span>
+      </div>
+    }
+  </mat-card-content>
+</mat-card>
