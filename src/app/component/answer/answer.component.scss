@@ -1,52 +1,91 @@
-/* Constrain the AI component to the remaining width */
+/* your-component.component.scss */
+
+/* Make the whole component fill full viewport height */
 :host {
   display: block;
-  width: 20vw;
-  min-width: 400px; /* AI needs a bit more room for text */
-  max-width: 20vw;
+  height: 100vh;           /* ← key: full screen height */
+  width: 30vw;
+  min-width: 400px;
+  max-width: 30vw;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  position: relative;      /* helps with absolute/fixed children if any */
 }
 
-/* Match the transcript-card style but flip the border radius */
+/* If your parent layout uses flex row (transcript left | AI right), this also works great */
+:host {
+  /* alternative if inside flex container → uncomment if needed */
+  /* flex: 1 1 auto; */   /* grow to fill remaining space */
+  /* min-height: 0; */     /* very important in nested flex! prevents overflow collapse */
+}
+
+/* Card fills the host completely */
 .ai-card {
   width: 100%;
-  height: 100%;
+  height: 100%;            /* ← now meaningful because :host has height */
   margin: 0;
   box-shadow: none;
   border-radius: 0 8px 8px 0;
-  border-left: 1px solid #ddd; /* Subtle line separating the two */
+  display: flex;           /* ← crucial: turn into flex container */
+  flex-direction: column;  /* stack children vertically */
 }
 
-/* Reusing your list container style for the answer box */
+/* This is the scrollable area — grows to fill available space */
 .answer-box {
+  flex: 1 1 auto;          /* ← grows to fill remaining vertical space */
+  min-height: 0;           /* ← fixes classic flex overflow bug */
+  overflow-y: auto;        /* ← scroll only when content > available height */
+  overflow-x: hidden;
+
   padding: 16px;
-  background: #ffffff; /* White background to contrast with transcript's grey */
+  background: #ffffff;
   border-radius: 8px;
   border: 1px solid #e0e0e0;
-  min-height: 100px;
   line-height: 1.6;
   font-size: 1.1rem;
+  scrollbar-color: #aaa transparent;
 }
 
+/* For WebKit browsers (Chrome, Safari, Edge) custom scrollbar look */
+.answer-box::-webkit-scrollbar {
+  width: 8px;
+}
+.answer-box::-webkit-scrollbar-track {
+  background: transparent;
+}
+.answer-box::-webkit-scrollbar-thumb {
+  background: #aaa;
+  border-radius: 4px;
+}
+.answer-box::-webkit-scrollbar-thumb:hover {
+  background: #888;
+}
+
+/* Thinking overlay — usually small, no need to grow */
 .thinking-overlay {
   display: flex;
   align-items: center;
   gap: 12px;
   padding: 12px;
-  color: #1976d2; /* Material Primary Blue */
+  color: #1976d2;
   font-weight: 500;
+  flex-shrink: 0;  /* don't let it shrink */
 }
 
-/* Reused from your transcript CSS */
+/* Placeholder stays small */
 .placeholder {
   color: #999;
   font-style: italic;
   padding: 12px 0;
+  flex-shrink: 0;
 }
 
-/* Consistency with transcript's content padding */
+/* If using mat-card-content inside .ai-card — minimal padding */
 mat-card-content {
-  padding: 16px !important;
+  padding: 4px !important;
+  margin-left: 0 !important;
+  flex: 1 1 auto;          /* let it grow if needed */
+  display: flex;           /* sometimes needed for nested content */
+  flex-direction: column;
 }

@@ -1,7 +1,7 @@
 <!-- transcript.component.html -->
 <mat-card class="transcript-card">
   <mat-card-header>
-    <mat-card-title>Live Ukrainian Speech Transcript</mat-card-title>
+    <mat-card-title>Recognized Speech</mat-card-title>
   </mat-card-header>
 
   <mat-card-content>
@@ -20,16 +20,16 @@
       </div>
     }
 
-    <div class="word-list">
-      @for (entry of words(); track entry.index) {
-        <div class="word-row">
-          {{ entry.word }}
-        </div>
-      }
+      <div class="word-list">
+        @for (entry of words(); track entry.index) {
+          <div class="word-row">
+            {{ entry.word }}
+          </div>
+        }
 
-      @if (isEmpty()) {
-        <div class="placeholder">Waiting for speech...</div>
-      }
-    </div>
+        @if (isEmpty()) {
+          <div class="placeholder">Waiting for speech...</div>
+        }
+      </div>
   </mat-card-content>
 </mat-card>
