@@ -1,0 +1,15 @@
+/* app.component.scss */
+.dashboard-layout {
+  display: flex;            /* Forces children to be side-by-side */
+  flex-direction: row;      /* Default, but good to be explicit */
+  width: 100vw;             /* Take full viewport width */
+  height: 100vh;            /* Take full viewport height */
+  overflow: hidden;         /* Prevent the whole page from scrolling */
+  background-color: #eee;   /* Light grey background for the "gaps" */
+}
+
+/* Ensure components don't shrink or grow unexpectedly */
+app-transcript, 
+app-ai-answer {
+  height: 100%;             /* Ensure they both reach the bottom of the screen */
+}
