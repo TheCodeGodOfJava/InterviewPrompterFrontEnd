@@ -1,9 +1,9 @@
 /* Force the component itself to behave as a constrained container */
 :host {
-  display: block;                    /* important – makes :host a block-level element */
-  width: 40vw;                       /* set width here – on the component host */
-  min-width: 300px;                  /* prevent too narrow */
-  max-width: 40vw;
+  display: block; /* important – makes :host a block-level element */
+  width: 20vw; /* set width here – on the component host */
+  min-width: 300px; /* prevent too narrow */
+  max-width: 20vw;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -11,16 +11,16 @@
 
 /* Now the card follows the host's width */
 .transcript-card {
-  width: 100%;                       /* take 100% of :host */
+  width: 100%; /* take 100% of :host */
   height: 100%;
   margin: 0;
-  border-radius: 0 8px 8px 0;
+  border-radius: 8px 0 0 8px;
   box-shadow: none;
 }
 
 /* Optional: remove any inherited left/right space */
 mat-card-content {
-  padding-left: 8px !important;      /* minimal left padding */
+  padding-left: 8px !important; /* minimal left padding */
   margin-left: 0 !important;
 }
 
@@ -48,7 +48,8 @@ mat-card-content {
   text-align: right;
 }
 
-.loading, .error {
+.loading,
+.error {
   display: flex;
   flex-direction: column;
   align-items: center;

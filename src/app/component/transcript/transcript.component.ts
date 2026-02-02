@@ -9,7 +9,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { TranscriptService, TranscriptUpdate } from '../../service/TranscriptService';
+import { TranscriptService, TranscriptUpdate } from '../../service/transcript-service';
 
 @Component({
   selector: 'app-transcript',
