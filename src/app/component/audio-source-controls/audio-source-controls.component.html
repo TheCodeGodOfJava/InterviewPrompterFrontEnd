@@ -1,0 +1,38 @@
+<mat-card class="audio-source-controls">
+  <mat-card-header>
+    <mat-card-title>Audio Input Source Control</mat-card-title>
+  </mat-card-header>
+
+  <mat-card-content>
+    <div class="controls">
+      <mat-slide-toggle
+        [checked]="isMicrophone()"
+        (change)="toggleSource()"
+        color="primary"
+        [disabled]="isSwitching()"
+      >
+        <div class="toggle-label">
+          {{ toggleLabel() }}
+          <mat-icon>{{ toggleIcon() }}</mat-icon>
+        </div>
+      </mat-slide-toggle>
+
+      <!-- Status feedback -->
+      <div
+        class="status-line"
+        [ngClass]="{
+          'status-ok': !isSwitching() && errorMessage() === null,
+          'status-switching': isSwitching(),
+          'status-error': errorMessage() !== null,
+        }"
+      >
+        @if (isSwitching()) {
+          <mat-spinner diameter="20"></mat-spinner>
+          <span>Switching audio source...</span>
+        } @else if (errorMessage(); as msg) {
+          <span class="error-text">{{ msg }}</span>
+        }
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

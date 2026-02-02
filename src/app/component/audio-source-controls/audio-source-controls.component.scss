@@ -1,0 +1,62 @@
+:host {
+  display: block;       
+  width: 15vw;
+  max-width: 15vw;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  position: relative;      /* helps with absolute/fixed children if any */
+}
+
+.audio-source-controls {
+  width: 100%;
+  margin: 0;
+  box-shadow: none;
+  border-radius: 0 8px 8px 0;
+  display: flex;           /* ← crucial: turn into flex container */
+  flex-direction: column;  /* stack children vertically */
+
+  .toggle-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 500;
+  }
+
+  mat-slide-toggle {
+    margin: 12px 0;
+  }
+
+  .status-line {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 12px;
+    min-height: 32px;
+  }
+}
+
+mat-card-content {
+  flex: 1 1 auto;          /* grow to fill remaining space */
+  min-height: 0;           /* prevents flex child overflow collapse bug */
+  display: flex;
+  flex-direction: column;
+  padding: 8px !important;
+  margin-left: 0 !important;
+  overflow: hidden;        /* contain any potential overflow */
+}
+
+.controls{
+  flex: 1 1 auto;          /* ← grows to fill remaining vertical space */
+  min-height: 0;           /* ← fixes classic flex overflow bug */
+  overflow-y: auto;        /* ← scroll only when content > available height */
+  overflow-x: hidden;
+
+  padding: 16px;
+  background: #ffffff;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+  line-height: 1.6;
+  font-size: 1.1rem;
+  scrollbar-color: #aaa transparent;
+}
