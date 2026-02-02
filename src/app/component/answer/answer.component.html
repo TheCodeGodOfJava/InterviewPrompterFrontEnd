@@ -1,0 +1,25 @@
+<mat-card class="ai-card">
+  <mat-card-header>
+    <mat-card-title>
+      <mat-icon color="primary" style="vertical-align: middle; margin-right: 8px;">psychology</mat-icon>
+      Ollama Intelligence
+    </mat-card-title>
+  </mat-card-header>
+
+  <mat-card-content class="ai-content">
+    @if (isThinking()) {
+      <div class="thinking-overlay">
+        <mat-spinner diameter="24"></mat-spinner>
+        <span>Analyzing speech...</span>
+      </div>
+    }
+
+    <div class="answer-box">
+      @if (answer()) {
+        <p>{{ answer() }}</p>
+      } @else {
+        <div class="placeholder">Speak to see AI analysis...</div>
+      }
+    </div>
+  </mat-card-content>
+</mat-card>

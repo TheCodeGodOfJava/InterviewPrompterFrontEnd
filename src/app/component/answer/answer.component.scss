@@ -1,0 +1,52 @@
+/* Constrain the AI component to the remaining width */
+:host {
+  display: block;
+  width: 20vw;
+  min-width: 400px; /* AI needs a bit more room for text */
+  max-width: 20vw;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Match the transcript-card style but flip the border radius */
+.ai-card {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  box-shadow: none;
+  border-radius: 0 8px 8px 0;
+  border-left: 1px solid #ddd; /* Subtle line separating the two */
+}
+
+/* Reusing your list container style for the answer box */
+.answer-box {
+  padding: 16px;
+  background: #ffffff; /* White background to contrast with transcript's grey */
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+  min-height: 100px;
+  line-height: 1.6;
+  font-size: 1.1rem;
+}
+
+.thinking-overlay {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  color: #1976d2; /* Material Primary Blue */
+  font-weight: 500;
+}
+
+/* Reused from your transcript CSS */
+.placeholder {
+  color: #999;
+  font-style: italic;
+  padding: 12px 0;
+}
+
+/* Consistency with transcript's content padding */
+mat-card-content {
+  padding: 16px !important;
+}
