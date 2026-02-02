@@ -13,13 +13,6 @@
   position: relative;      /* helps with absolute/fixed children if any */
 }
 
-/* If your parent layout uses flex row (transcript left | AI right), this also works great */
-:host {
-  /* alternative if inside flex container → uncomment if needed */
-  /* flex: 1 1 auto; */   /* grow to fill remaining space */
-  /* min-height: 0; */     /* very important in nested flex! prevents overflow collapse */
-}
-
 /* Card fills the host completely */
 .ai-card {
   width: 100%;

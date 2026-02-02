@@ -13,23 +13,19 @@
       </div>
     }
 
-    @if (errorMessage) {
-      <div class="error">
-        <mat-icon>error_outline</mat-icon>
+    <div class="word-list">
+      @for (entry of words(); track entry.index) {
+        <div class="word-row">
+          {{ entry.word }}
+        </div>
+      }
+
+      @if (isEmpty()) {
+        <div class="placeholder">Waiting for speech...</div>
+      }
+      @if (errorMessage) {
         <p>{{ errorMessage }}</p>
-      </div>
-    }
-
-      <div class="word-list">
-        @for (entry of words(); track entry.index) {
-          <div class="word-row">
-            {{ entry.word }}
-          </div>
-        }
-
-        @if (isEmpty()) {
-          <div class="placeholder">Waiting for speech...</div>
-        }
-      </div>
+      }
+    </div>
   </mat-card-content>
 </mat-card>

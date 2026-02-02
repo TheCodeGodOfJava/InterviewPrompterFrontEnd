@@ -11,13 +11,6 @@
   position: relative;      /* useful if you ever add absolute positioned elements */
 }
 
-/* If the parent layout is flex row (transcript | AI), you can also use this instead of 100vh: */
-/* :host {
-  flex: 1 1 auto;
-  min-height: 0;           ← very important in nested flex
-  ... other properties
-} */
-
 /* Card fills the entire host height */
 .transcript-card {
   width: 100%;
