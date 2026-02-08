@@ -1,0 +1,33 @@
+<mat-card class="panel-card">
+  <mat-card-header>
+    <mat-card-title>
+      <mat-icon>history</mat-icon>
+      Chat History
+    </mat-card-title>
+  </mat-card-header>
+
+  <mat-card-content>
+    <div class="scroll-container" #scrollContainer>
+      
+      @for (msg of messages(); track $index) {
+        @if (msg.role !== 'system') {
+          <div class="message-row" 
+               [class.user-row]="msg.role === 'user'" 
+               [class.ai-row]="msg.role === 'assistant'">
+            <div class="bubble">
+              <div class="role-label">{{ msg.role === 'user' ? 'You' : 'AI' }}</div>
+              {{ msg.content }}
+            </div>
+          </div>
+        }
+      }
+
+      @if (messages().length <= 1) {
+        <div class="placeholder">
+          <mat-icon>chat_bubble_outline</mat-icon>
+          <p>Conversation history...</p>
+        </div>
+      }
+    </div>
+  </mat-card-content>
+</mat-card>

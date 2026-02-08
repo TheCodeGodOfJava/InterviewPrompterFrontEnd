@@ -1,21 +1,27 @@
-<mat-card class="ai-card">
+<mat-card class="panel-card">
   <mat-card-header>
-    <mat-card-title> Ollama Intelligence </mat-card-title>
+    <mat-card-title>
+      <mat-icon>lightbulb</mat-icon>
+      Latest Intelligence
+    </mat-card-title>
   </mat-card-header>
 
   <mat-card-content>
     @if (isThinking()) {
       <div class="thinking-overlay">
-        <mat-spinner diameter="24"></mat-spinner>
-        <span>Analyzing speech...</span>
+        <mat-spinner diameter="20"></mat-spinner>
+        <span>Thinking...</span>
       </div>
     }
 
-    <div class="answer-box">
+    <div class="scroll-container">
       @if (answer()) {
-        <p>{{ answer() }}</p>
+        <p style="white-space: pre-wrap;">{{ answer() }}</p>
       } @else {
-        <div class="placeholder">Speak to see AI analysis...</div>
+        <div class="placeholder">
+          <mat-icon>auto_awesome</mat-icon>
+          <p>AI Analysis will appear here...</p>
+        </div>
       }
     </div>
   </mat-card-content>
