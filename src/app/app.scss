@@ -8,8 +8,3 @@
   background-color: #eee;   /* Light grey background for the "gaps" */
 }
 
-/* Ensure components don't shrink or grow unexpectedly */
-app-transcript, 
-app-ai-answer {
-  height: 100%;             /* Ensure they both reach the bottom of the screen */
-}

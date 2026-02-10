@@ -1,19 +1,12 @@
-/* =========================================
-   UNIVERSAL PANEL STYLES
-   Paste this into BOTH:
-   - chat.component.scss
-   - answer.component.scss
-   ========================================= */
-
 :host {
   display: block;
-  height: 100vh;           /* Full Viewport Height */
-  width: 30vw;             /* Fixed Width */
-  min-width: 400px;
-  max-width: 30vw;
+  height: 100vh;
+  flex: 1;           /* Grow to fill available space */
+  width: auto;       /* Reset fixed width */
+  max-width: none;   /* Remove max-width constraint */
+  min-width: 300px;  /* Keep a safety minimum if you want */
   box-sizing: border-box;
   position: relative;
-  border-right: 1px solid #e0e0e0; /* Optional: separator between panels */
 }
 
 /* The Main Card Container */

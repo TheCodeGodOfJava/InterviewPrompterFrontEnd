@@ -1,11 +1,14 @@
 :host {
-  display: block;       
-  width: 15vw;
-  max-width: 15vw;
-  margin: 0;
-  padding: 0;
+  display: block;
+  height: 100%;
+  width: 600px;        /* Set width */
+  flex: 0 0 600px;     /* Fixed to width */
   box-sizing: border-box;
-  position: relative;      /* helps with absolute/fixed children if any */
+  position: relative;
+  background-color: #fff; /* White background to stand out */
+  border-left: 1px solid #e0e0e0;
+  border-right: 1px solid #e0e0e0;
+  z-index: 2; 
 }
 
 .audio-source-controls {
