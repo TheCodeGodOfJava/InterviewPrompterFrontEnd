@@ -1,28 +1,27 @@
-<mat-card class="panel-card">
-  <mat-card-header>
-    <mat-card-title>
-      <mat-icon>lightbulb</mat-icon>
-      Latest Intelligence
-    </mat-card-title>
-  </mat-card-header>
+<mat-card-header>
+  <mat-card-title>
+    <mat-icon>lightbulb</mat-icon>
+    Latest Intelligence
+  </mat-card-title>
+</mat-card-header>
 
-  <mat-card-content>
-    @if (isThinking()) {
-      <div class="thinking-overlay">
-        <mat-spinner diameter="20"></mat-spinner>
-        <span>Thinking...</span>
+<mat-card-content>
+  @if (isThinking()) {
+    <div class="thinking-overlay">
+      <mat-spinner diameter="20"></mat-spinner>
+      <span>Thinking...</span>
+    </div>
+  }
+
+  <div class="scroll-container">
+    @if (answer()) {
+      <markdown [data]="answer()"></markdown>
+      
+    } @else {
+      <div class="placeholder">
+        <mat-icon>auto_awesome</mat-icon>
+        <p>AI Analysis will appear here...</p>
       </div>
     }
-
-    <div class="scroll-container">
-      @if (answer()) {
-        <p style="white-space: pre-wrap;">{{ answer() }}</p>
-      } @else {
-        <div class="placeholder">
-          <mat-icon>auto_awesome</mat-icon>
-          <p>AI Analysis will appear here...</p>
-        </div>
-      }
-    </div>
-  </mat-card-content>
-</mat-card>
+  </div>
+</mat-card-content>

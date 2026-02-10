@@ -72,9 +72,6 @@ mat-card-content {
   &::-webkit-scrollbar-thumb { background-color: #bdbdbd; border-radius: 3px; }
 }
 
-/* =========================================
-   SPECIFIC OVERRIDES (Keep these below)
-   ========================================= */
 
 /* CHAT BUBBLES (Only needed in Chat Component) */
 .message-row {
@@ -98,6 +95,13 @@ mat-card-content {
   background-color: #e3f2fd; /* Light Blue */
   color: #0d47a1;
   border-bottom-right-radius: 2px;
+
+  /* 👇 ADD THIS: Clean up inline code inside the blue user bubble */
+  /* This makes code snippets like `variable` look better on blue background */
+  ::ng-deep markdown :not(pre) > code {
+    background-color: rgba(255, 255, 255, 0.5) !important; 
+    color: #0d47a1 !important;
+  }
 }
 
 /* AI (Left) */

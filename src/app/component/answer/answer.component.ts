@@ -6,11 +6,12 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatIconModule } from '@angular/material/icon';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ChatService } from '../../service/chat-service';
+import { MarkdownComponent } from "ngx-markdown";
 
 @Component({
   selector: 'app-ai-answer',
   standalone: true,
-  imports: [CommonModule, MatCardModule, MatProgressSpinnerModule, MatIconModule],
+  imports: [CommonModule, MatCardModule, MatProgressSpinnerModule, MatIconModule, MarkdownComponent],
   templateUrl: './answer.component.html',
   styleUrl: './answer.component.scss', 
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -1,0 +1,50 @@
+/* 1. General Typography */
+markdown {
+  font-family: 'Roboto', sans-serif;
+  line-height: 1.6;
+  font-size: 1rem;
+  color: inherit; 
+}
+
+/* 2. Paragraphs - reduce spacing in chat bubbles */
+markdown p {
+  margin-bottom: 0.8em;
+}
+markdown p:last-child {
+  margin-bottom: 0;
+}
+
+/* 3. Code Blocks (The "Gemini" look) */
+markdown pre {
+  background-color: #1e1e1e !important; /* Dark background */
+  border-radius: 8px;
+  padding: 12px;
+  margin: 10px 0;
+  overflow-x: auto;
+  color: #d4d4d4;
+  font-family: 'Consolas', 'Monaco', monospace;
+  font-size: 0.9em;
+}
+
+/* Inline code (like `this`) */
+markdown :not(pre) > code {
+  background-color: rgba(0, 0, 0, 0.08);
+  padding: 2px 5px;
+  border-radius: 4px;
+  font-family: monospace;
+  font-weight: bold;
+}
+
+/* 4. Lists */
+markdown ul, markdown ol {
+  margin-left: 20px;
+  margin-bottom: 1em;
+}
+
+/* 5. Headings */
+markdown h1, markdown h2, markdown h3 {
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+  font-weight: 600;
+  color: inherit;
+}
