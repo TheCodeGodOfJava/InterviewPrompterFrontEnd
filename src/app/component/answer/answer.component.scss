@@ -21,12 +21,15 @@
   background-color: #f5f7fb;   /* Light Gray-Blue Background */
 }
 
-/* Header Styling */
-mat-card-header {
+mat-card-header.header-with-action {
   background: #ffffff;
   border-bottom: 1px solid #e0e0e0;
   padding: 16px 24px;
-  flex-shrink: 0;          /* Never shrink the header */
+  flex-shrink: 0;
+  
+  display: flex;
+  justify-content: space-between; 
+  align-items: center;
   
   mat-card-title {
     font-size: 1.1rem;
@@ -38,6 +41,8 @@ mat-card-header {
     margin: 0;
   }
 }
+
+/* ... keep all your other existing SCSS exactly the same ... */
 
 /* Content Area Wrapper */
 mat-card-content {

@@ -22,7 +22,6 @@ export class ChatService {
 
   public messages = signal<ChatMessage[]>([]);
 
-  // Subject for Latest Answer (for AiAnswerComponent)
   private aiResponseSubject = new BehaviorSubject<AiUpdate>({
     answer: '',
     status: 'READY',
@@ -41,12 +40,10 @@ export class ChatService {
     });
 
     this.client.onConnect = () => {
-      // Topic 1: Full History
       this.client.subscribe('/topic/context', (msg) => {
         this.messages.set(JSON.parse(msg.body));
       });
 
-      // Topic 2: Latest Answer (Thinking/Ready status)
       this.client.subscribe('/topic/ai-response', (msg) => {
         const update: AiUpdate = JSON.parse(msg.body);
         this.aiResponseSubject.next(update);
@@ -63,12 +60,25 @@ export class ChatService {
     });
   }
 
-  // Getter for the component to subscribe to
   get aiResponse$(): Observable<AiUpdate> {
     return this.aiResponseSubject.asObservable();
   }
 
   disconnect() {
     this.client.deactivate();
+  }
+
+  requestManualAnalysis() {
+    this.aiResponseSubject.next({ answer: '', status: 'THINKING' });
+
+    if (this.client && this.client.active) {
+      this.client.publish({
+        destination: '/app/request-analysis',
+        body: JSON.stringify({ action: 'generate_now' }) 
+      });
+    } else {
+      console.error('WebSocket is not connected. Cannot request analysis.');
+      this.aiResponseSubject.next({ answer: 'Connection error.', status: 'ERROR' });
+    }
   }
 }
