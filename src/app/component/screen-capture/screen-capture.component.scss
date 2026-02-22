@@ -1,0 +1,43 @@
+/* Add styling to the host to make it fill the remaining column space */
+:host {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto; /* Grow to fill the space below audio controls */
+  min-height: 0;  /* Prevent flex overflow issues */
+  width: 100%;
+  padding: 16px;  /* Optional: adds some breathing room around the wrapper */
+  box-sizing: border-box;
+}
+
+.preview-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%; /* Stretch to fill the host container */
+  background-color: #1e1e1e;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+video {
+  width: 100%;
+  height: 100%;
+  object-fit: contain; 
+  /* display: none and video.active have been removed */
+}
+
+.btn-capture {
+  padding: 10px 16px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.btn-capture:hover {
+  background-color: #0056b3;
+}

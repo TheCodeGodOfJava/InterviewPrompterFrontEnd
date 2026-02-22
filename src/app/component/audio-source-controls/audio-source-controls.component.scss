@@ -1,13 +1,10 @@
 :host {
   display: block;
-  height: 100%;
-  width: 600px;        /* Set width */
-  flex: 0 0 600px;     /* Fixed to width */
+  width: 100%;        /* Set width */
+  flex: 0 0 auto;     /* Fixed to width */
   box-sizing: border-box;
   position: relative;
   background-color: #fff; /* White background to stand out */
-  border-left: 1px solid #e0e0e0;
-  border-right: 1px solid #e0e0e0;
   z-index: 2; 
 }
 

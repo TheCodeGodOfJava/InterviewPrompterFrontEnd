@@ -1,1 +1,15 @@
-<p>screen-capture works!</p>
+<div class="preview-wrapper">
+  @if (!isCapturing()) {
+    <div class="controls">
+      <button (click)="startCapture()" class="btn-capture">Select Meeting Window</button>
+    </div>
+  }
+
+  <video 
+    #videoElement 
+    autoplay 
+    playsinline 
+    [muted]="true" 
+    [hidden]="!isCapturing()">
+  </video>
+</div>

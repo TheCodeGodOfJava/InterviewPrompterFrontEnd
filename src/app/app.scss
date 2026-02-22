@@ -1,10 +1,22 @@
 /* app.component.scss */
 .dashboard-layout {
-  display: flex;            /* Forces children to be side-by-side */
-  flex-direction: row;      /* Default, but good to be explicit */
-  width: 100vw;             /* Take full viewport width */
-  height: 100vh;            /* Take full viewport height */
-  overflow: hidden;         /* Prevent the whole page from scrolling */
-  background-color: #eee;   /* Light grey background for the "gaps" */
+  display: flex;
+  flex-direction: row;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background-color: #eee;
 }
 
+/* Add this block for your new wrapper */
+.controls-and-preview-column {
+  display: flex;
+  flex-direction: column; /* Stacks audio controls on top of screen capture */
+  width: 600px;           /* Fixed width for the middle column */
+  flex: 0 0 600px;        /* Prevent shrinking/growing */
+  height: 100%;           /* Fill the vertical space of the dashboard */
+  border-left: 1px solid #e0e0e0;
+  border-right: 1px solid #e0e0e0;
+  background-color: #fff; 
+  z-index: 2;
+}
