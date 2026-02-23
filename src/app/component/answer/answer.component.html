@@ -1,36 +1,39 @@
-<mat-card-header class="header-with-action">
-  <mat-card-title>
-    <mat-icon>lightbulb</mat-icon>
-    Latest Intelligence
-  </mat-card-title>
-  
-  <button 
-    mat-flat-button 
-    color="primary" 
-    (click)="generateAnswer()" 
-    [disabled]="isThinking()">
-    <mat-icon>auto_awesome</mat-icon>
-    Analyze
-  </button>
-</mat-card-header>
+<mat-card class="panel-card">
 
-<mat-card-content>
-  @if (isThinking()) {
-    <div class="thinking-overlay">
-      <mat-spinner diameter="20"></mat-spinner>
-      <span>Thinking...</span>
-    </div>
-  }
+  <mat-card-header class="header-with-action">
+    <mat-card-title>
+      <mat-icon>lightbulb</mat-icon>
+      Latest Intelligence
+    </mat-card-title>
+    
+    <button 
+      mat-flat-button 
+      color="primary" 
+      (click)="generateAnswer()" 
+      [disabled]="isThinking()">
+      <mat-icon>auto_awesome</mat-icon>
+      Analyze
+    </button>
+  </mat-card-header>
 
-  <div class="scroll-container">
-    @if (answer()) {
-      <markdown [data]="answer()"></markdown>
-      
-    } @else {
-      <div class="placeholder">
-        <mat-icon>auto_awesome</mat-icon>
-        <p>AI Analysis will appear here...</p>
+  <mat-card-content>
+    @if (isThinking()) {
+      <div class="thinking-overlay">
+        <mat-spinner diameter="20"></mat-spinner>
+        <span>Thinking...</span>
       </div>
     }
-  </div>
-</mat-card-content>
+
+    <div class="scroll-container" #scrollMe>
+      @if (answer()) {
+        <markdown [data]="answer()"></markdown>
+      } @else {
+        <div class="placeholder">
+          <mat-icon>auto_awesome</mat-icon>
+          <p>AI Analysis will appear here...</p>
+        </div>
+      }
+    </div>
+  </mat-card-content>
+
+</mat-card>

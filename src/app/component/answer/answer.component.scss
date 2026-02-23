@@ -1,24 +1,26 @@
 :host {
-  display: block;
+  display: flex;             /* Changed from block to flex */
+  flex-direction: column;    /* Stack children vertically */
   height: 100vh;
-  flex: 1;           /* Grow to fill available space */
-  width: auto;       /* Reset fixed width */
-  max-width: none;   /* Remove max-width constraint */
-  min-width: 300px;  /* Safety minimum */
+  flex: 1;                   
+  width: auto;               
+  max-width: none;           
+  min-width: 300px;          
   box-sizing: border-box;
   position: relative;
 }
 
 /* The Main Card Container */
 .panel-card {
+  flex: 1;                   /* Tell the card to fill the :host */
   width: 100%;
-  height: 100%;            /* Fills the :host */
   margin: 0;
-  border-radius: 0;        /* Square corners for full-height panels */
-  box-shadow: none !important; /* Flatten it to look like a panel */
+  border-radius: 0;          
+  box-shadow: none !important; 
   display: flex;
   flex-direction: column;
-  background-color: #f5f7fb;   /* Light Gray-Blue Background */
+  background-color: #f5f7fb;   
+  overflow: hidden;          /* 1. Prevent card from expanding past screen */
 }
 
 mat-card-header.header-with-action {
@@ -46,29 +48,40 @@ mat-card-header.header-with-action {
 
 /* Content Area Wrapper */
 mat-card-content {
-  flex: 1 1 auto;          /* Grow to fill remaining space */
+  flex: 1;                   
   display: flex;
   flex-direction: column;
-  padding: 0 !important;   /* Reset default padding */
+  padding: 0 !important;   
   margin: 0 !important;
-  overflow: hidden;        /* Contain internal scroll */
+  overflow: hidden;          /* 2. Contain internal scroll */
+  min-height: 0;             /* MAGIC BULLET: Forces flexbox to respect constraints */
   position: relative;
 }
 
 /* The Scrollable Zone */
 .scroll-container {
-  flex: 1;                 /* Fill available space */
-  overflow-y: auto;        /* Scroll vertical */
+  flex: 1;                   
+  overflow-y: auto;          /* 3. This will now actually trigger! */
   overflow-x: hidden;
-  padding: 20px;           /* Internal padding for text */
+  min-height: 0;             /* MAGIC BULLET */
+  padding: 30px;
   
-  /* Typography for the content */
   font-family: 'Roboto', sans-serif;
-  font-size: 1rem;
-  line-height: 1.6;
+  font-size: 2.2rem;         
+  line-height: 3.8;          
   color: #424242;
 
-  /* Smooth Scrollbar */
+  markdown {
+    font-size: 2.2rem;
+  }
+
+  &::after {
+    content: "";
+    display: block;
+    height: 30vh; /* Adds empty space equal to 40% of your screen height */
+    width: 100%;
+  }
+
   scrollbar-width: thin;
   scrollbar-color: #bdbdbd transparent;
   
@@ -77,25 +90,7 @@ mat-card-content {
   &::-webkit-scrollbar-thumb { background-color: #bdbdbd; border-radius: 3px; }
 }
 
-/* =========================================
-   SPECIFIC OVERRIDES (Keep these below)
-   ========================================= */
 
-/* CHAT BUBBLES (Only needed in Chat Component) */
-.message-row {
-  display: flex;
-  width: 100%;
-  margin-bottom: 16px;
-}
-
-.bubble {
-  max-width: 85%;
-  padding: 12px 16px;
-  border-radius: 12px;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.1);
-  position: relative;
-  font-size: 0.95rem;
-}
 
 /* User (Right) */
 .user-row { justify-content: flex-end; }

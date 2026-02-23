@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, signal } from '@angular/core';
 import { Client } from '@stomp/stompjs';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import SockJS from 'sockjs-client';
 
 export interface AiUpdate {
@@ -27,6 +27,8 @@ export class ChatService {
     status: 'READY',
   });
 
+  public scrollCommand$ = new Subject<number>();
+
   constructor(private http: HttpClient) {
     this.connectWebSocket();
     this.loadInitialHistory();
@@ -47,6 +49,13 @@ export class ChatService {
       this.client.subscribe('/topic/ai-response', (msg) => {
         const update: AiUpdate = JSON.parse(msg.body);
         this.aiResponseSubject.next(update);
+      });
+
+      this.client.subscribe('/topic/scroll', (msg) => {
+        const deltaY = parseInt(msg.body, 10);
+        if (!isNaN(deltaY)) {
+          this.scrollCommand$.next(deltaY);
+        }
       });
     };
 

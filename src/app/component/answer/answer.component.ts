@@ -1,10 +1,20 @@
-import { Component, computed, signal, effect, ChangeDetectionStrategy } from '@angular/core';
+import { 
+  Component, 
+  computed, 
+  signal, 
+  effect, 
+  ChangeDetectionStrategy, 
+  ViewChild, 
+  ElementRef, 
+  DestroyRef, 
+  inject 
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button'; 
-import { toSignal } from '@angular/core/rxjs-interop';
+import { toSignal, takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ChatService } from '../../service/chat-service';
 import { MarkdownComponent } from "ngx-markdown";
 
@@ -24,6 +34,11 @@ import { MarkdownComponent } from "ngx-markdown";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AiAnswerComponent {
+  
+  @ViewChild('scrollMe') private scrollContainer!: ElementRef<HTMLDivElement>;
+  
+  private destroyRef = inject(DestroyRef);
+
   protected aiSignal = signal<{ answer: string; status: string }>({
     answer: '',
     status: 'READY',
@@ -39,6 +54,14 @@ export class AiAnswerComponent {
       const update = liveAi();
       if (update) this.aiSignal.set(update);
     }, { allowSignalWrites: true }); 
+
+    this.chatService.scrollCommand$
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((deltaY) => {
+        if (this.scrollContainer) {
+          this.scrollContainer.nativeElement.scrollTop += deltaY;
+        }
+      });
   }
 
   generateAnswer() {
