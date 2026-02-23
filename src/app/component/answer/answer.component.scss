@@ -61,36 +61,54 @@ mat-card-content {
 /* The Scrollable Zone */
 .scroll-container {
   flex: 1;                   
-  overflow-y: auto;          /* 3. This will now actually trigger! */
-  overflow-x: hidden;
-  min-height: 0;             /* MAGIC BULLET */
-  padding: 30px;
+  overflow-y: auto;          
+  
+  overflow-x: auto;          
+  
+  box-sizing: border-box;    
+  
+  min-height: 0;  
   
   font-family: 'Roboto', sans-serif;
-  font-size: 2.2rem;         
-  line-height: 3.8;          
+  font-size: 1.4rem;         
+  line-height: 2.2;          
   color: #424242;
 
   markdown {
-    font-size: 2.2rem;
+    font-size: 1.4rem;
   }
 
   &::after {
     content: "";
     display: block;
-    height: 30vh; /* Adds empty space equal to 40% of your screen height */
+    height: 25vh;
     width: 100%;
   }
 
   scrollbar-width: thin;
   scrollbar-color: #bdbdbd transparent;
   
-  &::-webkit-scrollbar { width: 6px; }
+  &::-webkit-scrollbar { width: 6px; height: 6px; } 
   &::-webkit-scrollbar-track { background: transparent; }
   &::-webkit-scrollbar-thumb { background-color: #bdbdbd; border-radius: 3px; }
 }
 
-
+::ng-deep markdown {
+  /* This ensures tables get their own horizontal scrollbar 
+     instead of stretching the whole page */
+  table {
+    display: block;
+    max-width: 100%;
+    overflow-x: auto;
+    border-collapse: collapse;
+  }
+  
+  /* Same for code blocks so they don't break the layout */
+  pre {
+    max-width: 100%;
+    overflow-x: auto;
+  }
+}
 
 /* User (Right) */
 .user-row { justify-content: flex-end; }
