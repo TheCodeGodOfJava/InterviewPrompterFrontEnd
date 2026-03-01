@@ -35,6 +35,10 @@ export class ChatComponent {
     });
   }
 
+  isImage(content: string): boolean {
+    return !!content && content.startsWith('data:image/');
+  }
+
   scrollToBottom(): void {
     if (this.scrollContainer) {
       const el = this.scrollContainer.nativeElement;

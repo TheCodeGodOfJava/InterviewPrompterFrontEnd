@@ -106,3 +106,13 @@ mat-card-content {
 
 /* AI (Left) */
 .ai-row { justify-content: flex-start; }
+
+.chat-screenshot {
+  max-width: 100%;       /* Prevents image from breaking out of the bubble */
+  height: auto;          /* Maintains aspect ratio */
+  border-radius: 8px;    /* Smooth inner corners */
+  margin-top: 8px;
+  display: block;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  border: 1px solid rgba(0,0,0,0.05);
+}

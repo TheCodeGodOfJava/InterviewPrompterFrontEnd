@@ -46,6 +46,11 @@ export class ChatService {
         this.messages.set(JSON.parse(msg.body));
       });
 
+      this.client.subscribe('/topic/screen-analysis', (msg) => {
+        const newMsg: ChatMessage = JSON.parse(msg.body);
+        this.messages.update(currentMessages => [...currentMessages, newMsg]);
+      });
+
       this.client.subscribe('/topic/ai-response', (msg) => {
         const update: AiUpdate = JSON.parse(msg.body);
         this.aiResponseSubject.next(update);

@@ -17,7 +17,12 @@
           >
             <div class="bubble">
               <div class="role-label">{{ msg.role === 'user' ? 'You' : 'AI' }}</div>
-              <markdown [data]="msg.content" (ready)="scrollToBottom()"></markdown>
+              
+              @if (isImage(msg.content)) {
+                <img [src]="msg.content" alt="Screen Capture" class="chat-screenshot" (load)="scrollToBottom()" />
+              } @else {
+                <markdown [data]="msg.content" (ready)="scrollToBottom()"></markdown>
+              }
             </div>
           </div>
         }
