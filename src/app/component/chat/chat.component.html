@@ -12,11 +12,11 @@
         @if (msg.role !== 'system') {
           <div
             class="message-row"
-            [class.user-row]="msg.role === 'user'"
-            [class.ai-row]="msg.role === 'assistant'"
+            [class.user-row]="msg.role === 'USER'"
+            [class.ai-row]="msg.role === 'ASSISNTANT'"
           >
             <div class="bubble">
-              <div class="role-label">{{ msg.role === 'user' ? 'You' : 'AI' }}</div>
+              <div class="role-label">{{ msg.role === 'USER' ? 'You' : 'AI' }}</div>
               
               @if (isImage(msg.content)) {
                 <img [src]="msg.content" alt="Screen Capture" class="chat-screenshot" (load)="scrollToBottom()" />

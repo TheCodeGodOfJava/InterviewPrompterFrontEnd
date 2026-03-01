@@ -10,7 +10,7 @@ export interface AiUpdate {
 }
 
 export interface ChatMessage {
-  role: 'system' | 'user' | 'assistant';
+  role: string;
   content: string;
 }
 
