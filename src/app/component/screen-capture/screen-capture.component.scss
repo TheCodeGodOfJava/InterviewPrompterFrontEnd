@@ -9,6 +9,12 @@
   box-sizing: border-box;
 }
 
+/* In overlay mode, fill entire screen */
+:host.overlay-screen-capture {
+  padding: 0;
+  flex: none;
+}
+
 .preview-wrapper {
   display: flex;
   flex-direction: column;
@@ -21,11 +27,22 @@
   overflow: hidden;
 }
 
+/* In overlay mode, remove border radius and fill screen */
+:host.overlay-screen-capture .preview-wrapper {
+  border-radius: 0;
+  background-color: transparent;
+}
+
 video {
   width: 100%;
   height: 100%;
   object-fit: contain; 
   /* display: none and video.active have been removed */
+}
+
+/* In overlay mode, cover the entire screen */
+:host.overlay-screen-capture video {
+  object-fit: cover;
 }
 
 .btn-capture {

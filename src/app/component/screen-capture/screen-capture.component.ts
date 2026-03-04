@@ -3,65 +3,70 @@ import {
   ElementRef, 
   ViewChild, 
   OnDestroy, 
-  ChangeDetectionStrategy, 
-  signal 
+  ChangeDetectionStrategy,
+  AfterViewInit,
+  effect,
+  DestroyRef,
+  inject
 } from '@angular/core';
+import { ScreenCaptureService } from '../../service/screen-capture.service';
 
 @Component({
   selector: 'app-screen-capture',
   templateUrl: './screen-capture.component.html',
   styleUrls: ['./screen-capture.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush // Added OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ScreenCapture implements OnDestroy {
+export class ScreenCapture implements AfterViewInit, OnDestroy {
   @ViewChild('videoElement') videoElement!: ElementRef<HTMLVideoElement>;
   
-  // Converted to a reactive Signal
-  isCapturing = signal(false); 
-  private mediaStream: MediaStream | null = null;
+  private screenCaptureService = inject(ScreenCaptureService);
+  private destroyRef = inject(DestroyRef);
+  
+  isCapturing = this.screenCaptureService.isCapturing;
+
+  ngAfterViewInit() {
+    // If there's already an active stream, attach it to the video element
+    const existingStream = this.screenCaptureService.getMediaStream();
+    if (existingStream && this.videoElement) {
+      this.attachStreamToVideo(existingStream);
+    }
+  }
 
   async startCapture() {
-    try {
-      this.mediaStream = await navigator.mediaDevices.getDisplayMedia({
-        video: true,
-        audio: false 
-      });
-
-      this.videoElement.nativeElement.srcObject = this.mediaStream;
-      
-      // Setting the signal automatically marks the view for checking
-      this.isCapturing.set(true);
-
-      // Wait one tick for the [hidden] directive to be removed in the DOM
-      setTimeout(async () => {
-        try {
-          await this.videoElement.nativeElement.play();
-        } catch (playErr) {
-          console.error('Failed to play video stream:', playErr);
-        }
-      }, 0);
-
-      this.mediaStream.getVideoTracks()[0].onended = () => {
-        this.stopCapture();
-      };
-    } catch (err) {
-      console.error('Screen capture was canceled or failed:', err);
+    const stream = await this.screenCaptureService.startCapture();
+    if (stream && this.videoElement) {
+      this.attachStreamToVideo(stream);
     }
+  }
+
+  private attachStreamToVideo(stream: MediaStream) {
+    if (!this.videoElement) return;
+    
+    this.videoElement.nativeElement.srcObject = stream;
+    
+    // Wait one tick for the [hidden] directive to be removed in the DOM
+    setTimeout(async () => {
+      try {
+        await this.videoElement.nativeElement.play();
+      } catch (playErr) {
+        console.error('Failed to play video stream:', playErr);
+      }
+    }, 0);
   }
 
   stopCapture() {
-    if (this.mediaStream) {
-      this.mediaStream.getTracks().forEach(track => track.stop());
-    }
+    this.screenCaptureService.stopCapture();
     if (this.videoElement) {
       this.videoElement.nativeElement.srcObject = null;
     }
-    
-    // Setting the signal back updates the UI instantly
-    this.isCapturing.set(false);
   }
 
   ngOnDestroy() {
-    this.stopCapture();
+    // Don't stop the capture on destroy, just detach from video element
+    // The service will keep the stream alive
+    if (this.videoElement) {
+      this.videoElement.nativeElement.srcObject = null;
+    }
   }
 }

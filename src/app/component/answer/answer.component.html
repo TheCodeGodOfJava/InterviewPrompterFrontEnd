@@ -1,20 +1,22 @@
 <mat-card class="panel-card">
 
-  <mat-card-header class="header-with-action">
-    <mat-card-title>
-      <mat-icon>lightbulb</mat-icon>
-      Latest Intelligence
-    </mat-card-title>
-    
-    <button 
-      mat-flat-button 
-      color="primary" 
-      (click)="generateAnswer()" 
-      [disabled]="isThinking()">
-      <mat-icon>auto_awesome</mat-icon>
-      Analyze
-    </button>
-  </mat-card-header>
+  @if (!overlayMode) {
+    <mat-card-header class="header-with-action">
+      <mat-card-title>
+        <mat-icon>lightbulb</mat-icon>
+        Latest Intelligence
+      </mat-card-title>
+      
+      <button 
+        mat-flat-button 
+        color="primary" 
+        (click)="generateAnswer()" 
+        [disabled]="isThinking()">
+        <mat-icon>auto_awesome</mat-icon>
+        Analyze
+      </button>
+    </mat-card-header>
+  }
 
   <mat-card-content>
     @if (isThinking()) {

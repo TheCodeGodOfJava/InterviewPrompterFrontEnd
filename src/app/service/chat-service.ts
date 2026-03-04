@@ -28,6 +28,8 @@ export class ChatService {
   });
 
   public scrollCommand$ = new Subject<number>();
+  public screenModeToggle$ = new Subject<void>();
+  public videoOpacityChange$ = new Subject<'increase' | 'decrease'>();
 
   constructor(private http: HttpClient) {
     this.connectWebSocket();
@@ -61,6 +63,19 @@ export class ChatService {
         if (!isNaN(deltaY)) {
           this.scrollCommand$.next(deltaY);
         }
+      });
+
+      this.client.subscribe('/topic/screen-mode-toggle', (msg) => {
+        this.screenModeToggle$.next();
+      });
+
+      this.client.subscribe('/topic/request-focus', (msg) => {
+        window.focus();
+      });
+
+      this.client.subscribe('/topic/video-opacity', (msg) => {
+        const action = msg.body as 'increase' | 'decrease';
+        this.videoOpacityChange$.next(action);
       });
     };
 

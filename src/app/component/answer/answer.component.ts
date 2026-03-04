@@ -7,7 +7,8 @@ import {
   ViewChild, 
   ElementRef, 
   DestroyRef, 
-  inject 
+  inject,
+  Input
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
@@ -36,6 +37,7 @@ import { MarkdownComponent } from "ngx-markdown";
 export class AiAnswerComponent {
   
   @ViewChild('scrollMe') private scrollContainer!: ElementRef<HTMLDivElement>;
+  @Input() overlayMode = false;
   
   private destroyRef = inject(DestroyRef);
 
