@@ -7,8 +7,7 @@ import {
   ViewChild, 
   ElementRef, 
   DestroyRef, 
-  inject,
-  Input
+  inject
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
@@ -17,19 +16,24 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button'; 
 import { toSignal, takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ChatService } from '../../service/chat-service';
+import { ScreenModeService } from '../../service/screen-mode.service';
 import { MarkdownComponent } from "ngx-markdown";
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { AudioSourceControlsComponent } from "../audio-source-controls/audio-source-controls.component";
 
 @Component({
   selector: 'app-ai-answer',
   standalone: true,
   imports: [
-    CommonModule, 
-    MatCardModule, 
-    MatProgressSpinnerModule, 
-    MatIconModule, 
-    MatButtonModule, 
-    MarkdownComponent
-  ],
+    CommonModule,
+    MatCardModule,
+    MatProgressSpinnerModule,
+    MatIconModule,
+    MatButtonModule,
+    MatTooltipModule,
+    MarkdownComponent,
+    AudioSourceControlsComponent
+],
   templateUrl: './answer.component.html',
   styleUrl: './answer.component.scss', 
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -37,9 +41,9 @@ import { MarkdownComponent } from "ngx-markdown";
 export class AiAnswerComponent {
   
   @ViewChild('scrollMe') private scrollContainer!: ElementRef<HTMLDivElement>;
-  @Input() overlayMode = false;
   
   private destroyRef = inject(DestroyRef);
+  private screenModeService = inject(ScreenModeService);
 
   protected aiSignal = signal<{ answer: string; status: string }>({
     answer: '',
@@ -48,6 +52,7 @@ export class AiAnswerComponent {
 
   answer = computed(() => this.aiSignal().answer);
   isThinking = computed(() => this.aiSignal().status === 'THINKING');
+  screenMode = this.screenModeService.mode;
 
   constructor(private chatService: ChatService) {
     const liveAi = toSignal(this.chatService.aiResponse$);
@@ -68,5 +73,9 @@ export class AiAnswerComponent {
 
   generateAnswer() {
     this.chatService.requestManualAnalysis();
+  }
+
+  toggleScreenMode() {
+    this.screenModeService.toggleMode();
   }
 }

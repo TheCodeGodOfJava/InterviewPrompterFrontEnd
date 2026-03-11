@@ -1,17 +1,10 @@
-<div class="dashboard-layout" [class.overlay-mode]="screenMode() === 'overlay'">
-  @if (screenMode() === 'normal') {
+<div class="dashboard-layout" [class.is-swapped]="screenMode() === 'overlay'">
+  
+  <div class="left-column">
     <app-chat />
+  </div>
 
-    <div class="controls-and-preview-column">
-      <app-audio-source-controls />
-      <app-screen-capture />
-    </div>
+  <app-screen-capture class="screen-panel" />
+  <app-ai-answer class="answer-panel" />
 
-    <app-ai-answer />
-  } @else {
-    <div class="overlay-container">
-      <app-ai-answer class="overlay-answer" [overlayMode]="true" />
-      <app-screen-capture class="overlay-screen-capture" />
-    </div>
-  }
 </div>

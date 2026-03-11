@@ -5,6 +5,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { CommonModule } from '@angular/common';
 import { AudioService } from '../../service/audio-service'; // adjust path if needed
+import { MatTooltip } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-audio-source-controls',
@@ -14,6 +15,7 @@ import { AudioService } from '../../service/audio-service'; // adjust path if ne
     MatCardModule,
     MatSlideToggleModule,
     MatIconModule,
+    MatTooltip,
     MatProgressSpinnerModule,
   ],
   templateUrl: './audio-source-controls.component.html',

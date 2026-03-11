@@ -1,13 +1,10 @@
-import { 
-  Component, 
-  ElementRef, 
-  ViewChild, 
-  OnDestroy, 
+import {
   ChangeDetectionStrategy,
-  AfterViewInit,
-  effect,
-  DestroyRef,
-  inject
+  Component,
+  ElementRef,
+  inject,
+  OnDestroy,
+  ViewChild
 } from '@angular/core';
 import { ScreenCaptureService } from '../../service/screen-capture.service';
 
@@ -17,21 +14,11 @@ import { ScreenCaptureService } from '../../service/screen-capture.service';
   styleUrls: ['./screen-capture.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ScreenCapture implements AfterViewInit, OnDestroy {
+export class ScreenCapture implements OnDestroy {
   @ViewChild('videoElement') videoElement!: ElementRef<HTMLVideoElement>;
-  
-  private screenCaptureService = inject(ScreenCaptureService);
-  private destroyRef = inject(DestroyRef);
-  
-  isCapturing = this.screenCaptureService.isCapturing;
 
-  ngAfterViewInit() {
-    // If there's already an active stream, attach it to the video element
-    const existingStream = this.screenCaptureService.getMediaStream();
-    if (existingStream && this.videoElement) {
-      this.attachStreamToVideo(existingStream);
-    }
-  }
+  private screenCaptureService = inject(ScreenCaptureService);
+  isCapturing = this.screenCaptureService.isCapturing;
 
   async startCapture() {
     const stream = await this.screenCaptureService.startCapture();
@@ -42,10 +29,9 @@ export class ScreenCapture implements AfterViewInit, OnDestroy {
 
   private attachStreamToVideo(stream: MediaStream) {
     if (!this.videoElement) return;
-    
+
     this.videoElement.nativeElement.srcObject = stream;
-    
-    // Wait one tick for the [hidden] directive to be removed in the DOM
+
     setTimeout(async () => {
       try {
         await this.videoElement.nativeElement.play();
@@ -56,17 +42,14 @@ export class ScreenCapture implements AfterViewInit, OnDestroy {
   }
 
   stopCapture() {
-    this.screenCaptureService.stopCapture();
+    this.screenCaptureService.stopCapture(); // This kills the actual hardware tracks
     if (this.videoElement) {
-      this.videoElement.nativeElement.srcObject = null;
+      this.videoElement.nativeElement.srcObject = null; // This clears the DOM memory
     }
   }
 
+  // 👇 The safety net for memory leaks
   ngOnDestroy() {
-    // Don't stop the capture on destroy, just detach from video element
-    // The service will keep the stream alive
-    if (this.videoElement) {
-      this.videoElement.nativeElement.srcObject = null;
-    }
+    this.stopCapture();
   }
 }

@@ -1,62 +1,38 @@
 :host {
   display: block;
-  width: 100%;        /* Set width */
-  flex: 0 0 auto;     /* Fixed to width */
-  box-sizing: border-box;
-  position: relative;
-  background-color: #fff; /* White background to stand out */
-  z-index: 2; 
 }
 
-.audio-source-controls {
-  width: 100%;
-  margin: 0;
-  box-shadow: none;
-  border-radius: 0 8px 8px 0;
-  display: flex;           /* ← crucial: turn into flex container */
-  flex-direction: column;  /* stack children vertically */
-
-  .toggle-label {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-weight: 500;
-  }
-
-  mat-slide-toggle {
-    margin: 12px 0;
-  }
-
-  .status-line {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-top: 12px;
-    min-height: 32px;
-  }
-}
-
-mat-card-content {
-  flex: 1 1 auto;          /* grow to fill remaining space */
-  min-height: 0;           /* prevents flex child overflow collapse bug */
+.compact-audio-control {
   display: flex;
-  flex-direction: column;
-  padding: 8px !important;
-  margin-left: 0 !important;
-  overflow: hidden;        /* contain any potential overflow */
+  align-items: center;
+  gap: 12px;
+  padding: 4px 12px;
+  background-color: #f5f7fb; /* Легкий фон, чтобы выделить кнопку в шапке */
+  border-radius: 20px;
+  border: 1px solid #e0e0e0;
 }
 
-.controls{
-  flex: 1 1 auto;          /* ← grows to fill remaining vertical space */
-  min-height: 0;           /* ← fixes classic flex overflow bug */
-  overflow-y: auto;        /* ← scroll only when content > available height */
-  overflow-x: hidden;
+.toggle-content {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  
+  mat-icon {
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+    color: #546e7a;
+  }
+  
+  .label-text {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #37474f;
+  }
+}
 
-  padding: 16px;
-  background: #ffffff;
-  border-radius: 8px;
-  border: 1px solid #e0e0e0;
-  line-height: 1.6;
-  font-size: 1.1rem;
-  scrollbar-color: #aaa transparent;
+.error-icon {
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
 }

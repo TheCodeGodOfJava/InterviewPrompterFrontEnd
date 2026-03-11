@@ -1,37 +1,38 @@
 :host {
-  display: flex;             /* Changed from block to flex */
-  flex-direction: column;    /* Stack children vertically */
-  height: 100vh;
+  display: flex;             
+  flex-direction: column;    
+  height: 100%;              /* Ensures it fills the flex column of the parent */
   flex: 1;                   
-  width: auto;               
-  max-width: none;           
-  min-width: 300px;          
+  width: 100%;               /* Changed from auto to 100% */
   box-sizing: border-box;
   position: relative;
 }
 
 /* The Main Card Container */
 .panel-card {
-  flex: 1;                   /* Tell the card to fill the :host */
+  flex: 1;                   
   width: 100%;
+  height: 100%;
   margin: 0;
   border-radius: 0;          
   box-shadow: none !important; 
   display: flex;
   flex-direction: column;
   background-color: #f5f7fb;   
-  overflow: hidden;          /* 1. Prevent card from expanding past screen */
+  overflow: hidden;          
 }
 
 mat-card-header.header-with-action {
   background: #ffffff;
   border-bottom: 1px solid #e0e0e0;
   padding: 16px 24px;
-  flex-shrink: 0;
+  flex-shrink: 0;            /* Crucial: Prevents header from being squished */
   
   display: flex;
   justify-content: space-between; 
   align-items: center;
+  width: 100%;               /* Ensures it spans full width */
+  box-sizing: border-box;
   
   mat-card-title {
     font-size: 1.1rem;
@@ -44,44 +45,76 @@ mat-card-header.header-with-action {
   }
 }
 
-/* ... keep all your other existing SCSS exactly the same ... */
+/* Container for the swap and analyze buttons */
+.header-buttons {
+  display: flex;
+  align-items: center;
+  gap: 12px;                 /* Adds nice spacing between buttons */
+}
 
 /* Content Area Wrapper */
 mat-card-content {
-  flex: 1;                   
+  flex: 1 1 auto;            /* Grow to fill remaining space */               
   display: flex;
   flex-direction: column;
   padding: 0 !important;   
   margin: 0 !important;
-  overflow: hidden;          /* 2. Contain internal scroll */
-  min-height: 0;             /* MAGIC BULLET: Forces flexbox to respect constraints */
+  overflow: hidden;          
+  min-height: 0;             
   position: relative;
+}
+
+/* Loading Overlay inside the content */
+.thinking-overlay {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: rgba(245, 247, 251, 0.85); /* Matches panel background but slightly transparent */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  z-index: 10;
+  font-weight: 500;
+  color: #3f51b5; 
+}
+
+/* Placeholder for empty state */
+.placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: #9e9e9e;
+  gap: 16px;
+  
+  mat-icon {
+    font-size: 48px;
+    width: 48px;
+    height: 48px;
+    opacity: 0.5;
+  }
 }
 
 /* The Scrollable Zone */
 .scroll-container {
   flex: 1;                   
   overflow-y: auto;          
-  
   overflow-x: auto;          
-  
   box-sizing: border-box;    
-  
   min-height: 0;  
+  padding: 24px;             /* Gives the text room to breathe */
   
   font-family: 'Roboto', sans-serif;
-  font-size: 1.4rem;         
-  line-height: 2.2;          
+  font-size: 1.2rem;         /* Adjusted slightly for better readability */ 
+  line-height: 1.8;          
   color: #424242;
-
-  markdown {
-    font-size: 1.4rem;
-  }
 
   &::after {
     content: "";
     display: block;
-    height: 25vh;
+    height: 10vh;            /* Reduced blank space at bottom */
     width: 100%;
   }
 
@@ -94,8 +127,8 @@ mat-card-content {
 }
 
 ::ng-deep markdown {
-  /* This ensures tables get their own horizontal scrollbar 
-     instead of stretching the whole page */
+  font-size: 1.2rem;
+
   table {
     display: block;
     max-width: 100%;
@@ -103,20 +136,29 @@ mat-card-content {
     border-collapse: collapse;
   }
   
-  /* Same for code blocks so they don't break the layout */
   pre {
     max-width: 100%;
     overflow-x: auto;
   }
 }
 
-/* User (Right) */
+/* Preserving your User/AI row classes just in case you use them dynamically */
 .user-row { justify-content: flex-end; }
 .user-row .bubble {
-  background-color: #e3f2fd; /* Light Blue */
+  background-color: #e3f2fd; 
   color: #0d47a1;
   border-bottom-right-radius: 2px;
 }
-
-/* AI (Left) */
 .ai-row { justify-content: flex-start; }
+.header-buttons {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.divider {
+  width: 1px;
+  height: 32px;
+  background-color: #e0e0e0;
+  margin: 0 4px;
+}

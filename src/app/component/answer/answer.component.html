@@ -1,39 +1,45 @@
 <mat-card class="panel-card">
 
-  @if (!overlayMode) {
-    <mat-card-header class="header-with-action">
-      <mat-card-title>
-        <mat-icon>lightbulb</mat-icon>
-        Latest Intelligence
-      </mat-card-title>
-      
-      <button 
-        mat-flat-button 
-        color="primary" 
-        (click)="generateAnswer()" 
-        [disabled]="isThinking()">
+  <mat-card-header class="header-with-action">
+    <mat-card-title>
+      <mat-icon>lightbulb</mat-icon>
+      Latest Intelligence
+    </mat-card-title>
+
+    <div class="header-buttons">
+
+      <app-audio-source-controls />
+
+      <div class="divider"></div>
+
+      <button mat-icon-button (click)="toggleScreenMode()"
+        [matTooltip]="screenMode() === 'normal' ? 'Swap to Center' : 'Swap to Right'">
+        <mat-icon>swap_horiz</mat-icon>
+      </button>
+
+      <button mat-flat-button color="primary" (click)="generateAnswer()" [disabled]="isThinking()">
         <mat-icon>auto_awesome</mat-icon>
         Analyze
       </button>
-    </mat-card-header>
-  }
+    </div>
+  </mat-card-header>
 
   <mat-card-content>
     @if (isThinking()) {
-      <div class="thinking-overlay">
-        <mat-spinner diameter="20"></mat-spinner>
-        <span>Thinking...</span>
-      </div>
+    <div class="thinking-overlay">
+      <mat-spinner diameter="30"></mat-spinner>
+      <span>Thinking...</span>
+    </div>
     }
 
     <div class="scroll-container" #scrollMe>
       @if (answer()) {
-        <markdown [data]="answer()"></markdown>
+      <markdown [data]="answer()"></markdown>
       } @else {
-        <div class="placeholder">
-          <mat-icon>auto_awesome</mat-icon>
-          <p>AI Analysis will appear here...</p>
-        </div>
+      <div class="placeholder">
+        <mat-icon>auto_awesome</mat-icon>
+        <p>AI Analysis will appear here...</p>
+      </div>
       }
     </div>
   </mat-card-content>

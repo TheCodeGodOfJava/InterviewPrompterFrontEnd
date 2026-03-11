@@ -1,18 +1,11 @@
-/* Add styling to the host to make it fill the remaining column space */
 :host {
   display: flex;
   flex-direction: column;
-  flex: 1 1 auto; /* Grow to fill the space below audio controls */
-  min-height: 0;  /* Prevent flex overflow issues */
+  flex: 1; 
+  height: 100%;
   width: 100%;
-  padding: 16px;  /* Optional: adds some breathing room around the wrapper */
   box-sizing: border-box;
-}
-
-/* In overlay mode, fill entire screen */
-:host.overlay-screen-capture {
-  padding: 0;
-  flex: none;
+  background-color: #1e1e1e; /* Gives that sleek dark background to the video feed */
 }
 
 .preview-wrapper {
@@ -21,28 +14,19 @@
   align-items: center;
   justify-content: center;
   width: 100%;
-  height: 100%; /* Stretch to fill the host container */
-  background-color: #1e1e1e;
-  border-radius: 8px;
+  height: 100%; 
   overflow: hidden;
-}
-
-/* In overlay mode, remove border radius and fill screen */
-:host.overlay-screen-capture .preview-wrapper {
-  border-radius: 0;
-  background-color: transparent;
 }
 
 video {
   width: 100%;
   height: 100%;
   object-fit: contain; 
-  /* display: none and video.active have been removed */
 }
 
-/* In overlay mode, cover the entire screen */
-:host.overlay-screen-capture video {
-  object-fit: cover;
+.controls {
+  position: absolute; /* Keeps the button centered when no video is playing */
+  z-index: 10;
 }
 
 .btn-capture {
@@ -53,8 +37,4 @@ video {
   border-radius: 4px;
   cursor: pointer;
   font-size: 1rem;
-}
-
-.btn-capture:hover {
-  background-color: #0056b3;
 }
