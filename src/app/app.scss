@@ -43,6 +43,7 @@
   height: 100%;
   z-index: 1;
   pointer-events: none;
+  opacity: 0.7; /* Fixed 70% opacity for text */
   
   ::ng-deep .panel-card {
     background-color: transparent;

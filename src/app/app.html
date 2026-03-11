@@ -10,10 +10,7 @@
     <app-ai-answer />
   } @else {
     <div class="overlay-container">
-      <app-ai-answer 
-        class="overlay-answer" 
-        [overlayMode]="true"
-        [style.opacity]="videoOpacity()" />
+      <app-ai-answer class="overlay-answer" [overlayMode]="true" />
       <app-screen-capture class="overlay-screen-capture" />
     </div>
   }

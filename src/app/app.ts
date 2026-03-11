@@ -18,7 +18,6 @@ export class App {
   private destroyRef = inject(DestroyRef);
   
   protected screenMode = inject(ScreenModeService).mode;
-  protected videoOpacity = inject(ScreenModeService).textOpacity;
 
   constructor(
     private screenModeService: ScreenModeService,
@@ -28,16 +27,6 @@ export class App {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(() => {
         this.screenModeService.toggleMode();
-      });
-
-    this.chatService.videoOpacityChange$
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((action) => {
-        if (action === 'increase') {
-          this.screenModeService.increaseOpacity();
-        } else {
-          this.screenModeService.decreaseOpacity();
-        }
       });
   }
 }
