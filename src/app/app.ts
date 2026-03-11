@@ -12,7 +12,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   selector: 'app-root',
   templateUrl: './app.html',
   styleUrl: './app.scss',
-  imports: [ChatComponent, AiAnswerComponent, AudioSourceControlsComponent, ScreenCapture],
+  imports: [ChatComponent, AiAnswerComponent, ScreenCapture],
 })
 export class App {
   private destroyRef = inject(DestroyRef);
