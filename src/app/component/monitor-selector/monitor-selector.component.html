@@ -1,0 +1,15 @@
+<div class="compact-control">
+  <mat-slide-toggle [checked]="isRight()" (change)="toggleMonitor()" color="primary" [disabled]="isSwitching()"
+    [matTooltip]="toggleLabel()">
+    <div class="toggle-content">
+      <mat-icon>{{ isRight() ? 'desktop_windows' : 'desktop_windows' }}</mat-icon>
+      <span class="label-text">{{ isRight() ? 'Right Display' : 'Left Display' }}</span>
+    </div>
+  </mat-slide-toggle>
+
+  @if (isSwitching()) {
+  <mat-spinner diameter="20"></mat-spinner>
+  } @else if (errorMessage(); as msg) {
+  <mat-icon class="error-icon" color="warn" [matTooltip]="msg">error_outline</mat-icon>
+  }
+</div>

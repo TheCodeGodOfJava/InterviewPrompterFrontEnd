@@ -20,6 +20,7 @@ import { ScreenModeService } from '../../service/screen-mode.service';
 import { MarkdownComponent } from "ngx-markdown";
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { AudioSourceControlsComponent } from "../audio-source-controls/audio-source-controls.component";
+import { MonitorSelectorComponent } from "../monitor-selector/monitor-selector.component";
 
 @Component({
   selector: 'app-ai-answer',
@@ -32,7 +33,8 @@ import { AudioSourceControlsComponent } from "../audio-source-controls/audio-sou
     MatButtonModule,
     MatTooltipModule,
     MarkdownComponent,
-    AudioSourceControlsComponent
+    AudioSourceControlsComponent,
+    MonitorSelectorComponent
 ],
   templateUrl: './answer.component.html',
   styleUrl: './answer.component.scss', 
