@@ -5,6 +5,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MarkdownComponent } from 'ngx-markdown';
 import { ChatService } from '../../service/chat-service';
+import { MatButtonModule } from '@angular/material/button';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-chat',
@@ -15,6 +17,8 @@ import { ChatService } from '../../service/chat-service';
     MatProgressSpinnerModule,
     MatIconModule,
     MarkdownComponent,
+    MatButtonModule,
+    MatTooltipModule
   ],
   templateUrl: './chat.component.html',
   styleUrl: './chat.component.scss',

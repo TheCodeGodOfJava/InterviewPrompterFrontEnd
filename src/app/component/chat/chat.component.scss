@@ -116,3 +116,18 @@ mat-card-content {
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
   border: 1px solid rgba(0,0,0,0.05);
 }
+
+.bubble-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+  padding-bottom: 4px;
+}
+
+.role-label {
+  font-weight: 600;
+  font-size: 0.85rem;
+  opacity: 0.8;
+}

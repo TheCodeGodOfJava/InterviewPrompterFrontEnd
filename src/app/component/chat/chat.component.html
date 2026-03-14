@@ -1,39 +1,37 @@
-<mat-card class="panel-card">
-  <mat-card-header>
-    <mat-card-title>
-      <mat-icon>history</mat-icon>
-      Chat History
-    </mat-card-title>
-  </mat-card-header>
+<mat-card-content>
+  <div class="scroll-container" #scrollContainer>
+    <div class="chat-wrapper">
 
-  <mat-card-content>
-    <div class="scroll-container" #scrollContainer>
-      @for (msg of messages(); track $index) {
-        @if (msg.role !== 'system') {
-          <div
-            class="message-row"
-            [class.user-row]="msg.role === 'USER'"
-            [class.ai-row]="msg.role === 'ASSISNTANT'"
-          >
-            <div class="bubble">
-              <div class="role-label">{{ msg.role === 'USER' ? 'You' : 'AI' }}</div>
-              
-              @if (isImage(msg.content)) {
-                <img [src]="msg.content" alt="Screen Capture" class="chat-screenshot" (load)="scrollToBottom()" />
-              } @else {
-                <markdown [data]="msg.content" (ready)="scrollToBottom()"></markdown>
-              }
-            </div>
+      @for (msg of messages(); track msg.id) {
+
+      @if (msg.role && msg.role.toUpperCase() !== 'SYSTEM') {
+      <div class="message-row" [class.user-row]="msg.role === 'USER'" [class.ai-row]="msg.role === 'ASSISTANT'">
+        <div class="bubble">
+
+          <div class="bubble-header">
+            <div class="role-label">{{ msg.role === 'USER' ? 'You' : 'AI' }}</div>
+
+            <button matMiniFab color="warn" (click)="chatService.deleteUpToMessage(msg.id!)"
+              matTooltip="Delete this and all previous messages">
+              <mat-icon>delete</mat-icon>
+            </button>
           </div>
-        }
+
+          @if (isImage(msg.content)) {
+          <img [src]="msg.content" alt="Screen Capture" class="chat-screenshot" (load)="scrollToBottom()" />
+          } @else {
+          <markdown [data]="msg.content" (ready)="scrollToBottom()"></markdown>
+          }
+        </div>
+      </div>
+      }
       }
 
-      @if (messages().length <= 1) {
-        <div class="placeholder">
-          <mat-icon>chat_bubble_outline</mat-icon>
-          <p>Conversation history...</p>
-        </div>
-      }
+      @if (messages().length <= 1) { <div class="placeholder">
+        <mat-icon>chat_bubble_outline</mat-icon>
+        <p>Conversation history...</p>
     </div>
-  </mat-card-content>
-</mat-card>
+    }
+  </div>
+  </div>
+</mat-card-content>

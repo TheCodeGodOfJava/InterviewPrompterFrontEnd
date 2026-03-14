@@ -3,16 +3,8 @@ import { Injectable, signal } from '@angular/core';
 import { Client } from '@stomp/stompjs';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import SockJS from 'sockjs-client';
-
-export interface AiUpdate {
-  answer: string;
-  status: 'READY' | 'THINKING' | 'ERROR';
-}
-
-export interface ChatMessage {
-  role: string;
-  content: string;
-}
+import { ChatMessage } from '../model/chat-message';
+import { AiUpdate } from '../model/ai-update';
 
 @Injectable({
   providedIn: 'root',
@@ -89,6 +81,15 @@ export class ChatService {
 
   disconnect() {
     this.client.deactivate();
+  }
+
+  deleteUpToMessage(id: string) {
+    if (!id) return;
+    
+    this.http.delete(`http://localhost:8080/api/chat/history/up-to/${id}`).subscribe({
+      next: () => console.log(`Deleted history up to ${id}`),
+      error: (err) => console.error('Failed to delete history', err)
+    });
   }
 
   requestManualAnalysis() {
