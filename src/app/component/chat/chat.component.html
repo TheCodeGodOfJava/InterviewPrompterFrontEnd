@@ -11,10 +11,17 @@
           <div class="bubble-header">
             <div class="role-label">{{ msg.role === 'USER' ? 'You' : 'AI' }}</div>
 
-            <button matMiniFab color="warn" (click)="chatService.deleteUpToMessage(msg.id!)"
-              matTooltip="Delete this and all previous messages">
-              <mat-icon>delete</mat-icon>
-            </button>
+            <div class="bubble-actions">
+              <button mat-icon-button class="delete-single" (click)="chatService.deleteSingleMessage(msg.id!)"
+                matTooltip="Delete only this message">
+                <mat-icon>delete</mat-icon>
+              </button>
+
+              <button mat-icon-button class="delete-sweep" (click)="confirmDeleteUpTo(msg.id!)"
+                matTooltip="Delete this and all messages above">
+                <mat-icon>playlist_remove</mat-icon>
+              </button>
+            </div>
           </div>
 
           @if (isImage(msg.content)) {
@@ -35,3 +42,14 @@
   </div>
   </div>
 </mat-card-content>
+
+<ng-template #deleteDialog>
+  <h2 mat-dialog-title>Delete history?</h2>
+  <mat-dialog-content>
+    This will remove this message and all messages above it.
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>NO</button>
+    <button mat-flat-button color="warn" [mat-dialog-close]="true">YES</button>
+  </mat-dialog-actions>
+</ng-template>

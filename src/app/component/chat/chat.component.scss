@@ -121,9 +121,36 @@ mat-card-content {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 4px;
-  border-bottom: 1px solid rgba(0,0,0,0.05);
-  padding-bottom: 4px;
+  margin-bottom: 8px;
+
+  .bubble-actions {
+    display: flex;
+    gap: 4px;
+    
+    button {
+      width: 32px;
+      height: 32px;
+      line-height: 32px;
+
+      mat-icon {
+        font-size: 20px;
+        width: 20px;
+        height: 20px;
+      }
+    }
+
+    .delete-single mat-icon {
+      color: #757575; // Сірий для точкового видалення
+    }
+
+    .delete-sweep mat-icon {
+      color: #f44336; // Червоний для масового
+    }
+
+    button:hover mat-icon {
+      transform: scale(1.1);
+    }
+  }
 }
 
 .role-label {

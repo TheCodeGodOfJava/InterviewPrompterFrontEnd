@@ -92,6 +92,13 @@ export class ChatService {
     });
   }
 
+  deleteSingleMessage(id: string) {
+    this.http.delete(`http://localhost:8080/api/chat/history/single/${id}`).subscribe({
+      next: () => console.log(`Deleted message ${id}`),
+      error: (err) => console.error('Failed to delete message', err)
+    });
+  }
+
   requestManualAnalysis() {
     this.aiResponseSubject.next({ answer: '', status: 'THINKING' });
 

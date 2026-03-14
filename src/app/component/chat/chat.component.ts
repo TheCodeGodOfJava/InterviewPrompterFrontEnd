@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, ElementRef, ViewChild, effect } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, TemplateRef, ViewChild, effect, inject } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -7,6 +7,7 @@ import { MarkdownComponent } from 'ngx-markdown';
 import { ChatService } from '../../service/chat-service';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-chat',
@@ -18,7 +19,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatIconModule,
     MarkdownComponent,
     MatButtonModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatDialogModule
   ],
   templateUrl: './chat.component.html',
   styleUrl: './chat.component.scss',
@@ -26,6 +28,9 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 })
 export class ChatComponent {
   @ViewChild('scrollContainer') private scrollContainer!: ElementRef;
+
+  @ViewChild('deleteDialog') deleteDialog!: TemplateRef<void>;
+  private dialog = inject(MatDialog);
 
   protected messages;
 
@@ -51,5 +56,16 @@ export class ChatComponent {
         behavior: 'smooth',
       });
     }
+  }
+
+  confirmDeleteUpTo(messageId: string) {
+    this.dialog.open(this.deleteDialog, {
+      width: '300px'
+    }).afterClosed().subscribe(result => {
+      if (result === true) {
+        this.chatService.deleteUpToMessage(messageId);
+      }
+    });
+
   }
 }
