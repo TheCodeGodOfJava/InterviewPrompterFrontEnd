@@ -1,13 +1,13 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, ElementRef, TemplateRef, ViewChild, effect, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, OnDestroy, TemplateRef, ViewChild, effect, inject, viewChild } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { MarkdownComponent } from 'ngx-markdown';
 import { ChatService } from '../../service/chat-service';
-import { MatButtonModule } from '@angular/material/button';
-import { MatTooltipModule } from '@angular/material/tooltip';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-chat',
@@ -20,28 +20,46 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
     MarkdownComponent,
     MatButtonModule,
     MatTooltipModule,
-    MatDialogModule
+    MatDialogModule,
   ],
   templateUrl: './chat.component.html',
   styleUrl: './chat.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ChatComponent {
-  @ViewChild('scrollContainer') private scrollContainer!: ElementRef;
+export class ChatComponent implements OnDestroy {
+  private readonly scrollContainer = viewChild<ElementRef>('scrollContainer');
 
   @ViewChild('deleteDialog') deleteDialog!: TemplateRef<void>;
+  private observer?: MutationObserver;
   private dialog = inject(MatDialog);
 
   protected messages;
 
   constructor(protected chatService: ChatService) {
     this.messages = this.chatService.messages;
-    // Auto-scroll effect: Whenever messages change, scroll to bottom
+
     effect(() => {
-      if (this.messages.length > 0) {
-        setTimeout(() => this.scrollToBottom(), 50);
+      const container = this.scrollContainer(); // Сигнал контейнера
+      const messagesExist = this.messages().length > 0;
+
+      if (container && messagesExist) {
+        this.setupScrollObserver(container.nativeElement);
       }
     });
+  }
+
+  private setupScrollObserver(element: HTMLElement) {
+    if (this.observer) return;
+
+    this.observer = new MutationObserver(() => {
+      this.scrollToBottom();
+    });
+
+    this.observer.observe(element, {
+      childList: true,
+      subtree: true
+    });
+    this.scrollToBottom();
   }
 
   isImage(content: string): boolean {
@@ -49,11 +67,12 @@ export class ChatComponent {
   }
 
   scrollToBottom(): void {
-    if (this.scrollContainer) {
-      const el = this.scrollContainer.nativeElement;
+    const container = this.scrollContainer();
+    if (container) {
+      const el = container.nativeElement;
       el.scrollTo({
         top: el.scrollHeight,
-        behavior: 'smooth',
+        behavior: 'auto' 
       });
     }
   }
@@ -68,4 +87,10 @@ export class ChatComponent {
     });
 
   }
+
+  ngOnDestroy() {
+    this.observer?.disconnect();
+  }
 }
+
+

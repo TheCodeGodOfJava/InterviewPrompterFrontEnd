@@ -1,47 +1,57 @@
-<mat-card-content>
-  <div class="scroll-container" #scrollContainer>
-    <div class="chat-wrapper">
+<mat-card class="panel-card">
 
-      @for (msg of messages(); track msg.id) {
+  <mat-card-header>
+    <mat-card-title>
+      <mat-icon>chat</mat-icon>
+      Interview Chat
+    </mat-card-title>
+  </mat-card-header>
 
-      @if (msg.role && msg.role.toUpperCase() !== 'SYSTEM') {
-      <div class="message-row" [class.user-row]="msg.role === 'USER'" [class.ai-row]="msg.role === 'ASSISTANT'">
-        <div class="bubble">
+  <mat-card-content>
+    <div class="scroll-container" #scrollContainer>
+      <div class="chat-wrapper">
 
-          <div class="bubble-header">
-            <div class="role-label">{{ msg.role === 'USER' ? 'You' : 'AI' }}</div>
+        @for (msg of messages(); track msg.id) {
 
-            <div class="bubble-actions">
-              <button mat-icon-button class="delete-single" (click)="chatService.deleteSingleMessage(msg.id!)"
-                matTooltip="Delete only this message">
-                <mat-icon>delete</mat-icon>
-              </button>
+        @if (msg.role && msg.role.toUpperCase() !== 'SYSTEM') {
+        <div class="message-row" [class.user-row]="msg.role === 'USER'" [class.ai-row]="msg.role === 'ASSISTANT'">
+          <div class="bubble">
 
-              <button mat-icon-button class="delete-sweep" (click)="confirmDeleteUpTo(msg.id!)"
-                matTooltip="Delete this and all messages above">
-                <mat-icon>playlist_remove</mat-icon>
-              </button>
+            <div class="bubble-header">
+              <div class="role-label">{{ msg.role === 'USER' ? 'You' : 'AI' }}</div>
+
+              <div class="bubble-actions">
+                <button mat-icon-button class="delete-single" (click)="chatService.deleteSingleMessage(msg.id!)"
+                  matTooltip="Delete only this message">
+                  <mat-icon>delete</mat-icon>
+                </button>
+
+                <button mat-icon-button class="delete-sweep" (click)="confirmDeleteUpTo(msg.id!)"
+                  matTooltip="Delete this and all messages above">
+                  <mat-icon>playlist_remove</mat-icon>
+                </button>
+              </div>
             </div>
-          </div>
 
-          @if (isImage(msg.content)) {
-          <img [src]="msg.content" alt="Screen Capture" class="chat-screenshot" (load)="scrollToBottom()" />
-          } @else {
-          <markdown [data]="msg.content" (ready)="scrollToBottom()"></markdown>
-          }
+            @if (isImage(msg.content)) {
+            <img [src]="msg.content" alt="Screen Capture" class="chat-screenshot" (load)="scrollToBottom()" />
+            } @else {
+            <markdown [data]="msg.content" (ready)="scrollToBottom()"></markdown>
+            }
+          </div>
         </div>
+        }
+        }
+
+        @if (messages().length <= 1) { <div class="placeholder">
+          <mat-icon>chat_bubble_outline</mat-icon>
+          <p>Conversation history...</p>
       </div>
       }
-      }
-
-      @if (messages().length <= 1) { <div class="placeholder">
-        <mat-icon>chat_bubble_outline</mat-icon>
-        <p>Conversation history...</p>
     </div>
-    }
-  </div>
-  </div>
-</mat-card-content>
+    </div>
+  </mat-card-content>
+</mat-card>
 
 <ng-template #deleteDialog>
   <h2 mat-dialog-title>Delete history?</h2>
