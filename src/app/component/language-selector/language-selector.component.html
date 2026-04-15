@@ -1,0 +1,4 @@
+<button mat-icon-button (click)="toggleLanguage()"
+  [matTooltip]="isEnglish() ? 'Switch to Bilingual (UK/EN)' : 'Switch to Strict English'">
+  <span class="lang-icon">{{ isEnglish() ? '🇬🇧' : '🇺🇦' }}</span>
+</button>

@@ -7,14 +7,16 @@
     </mat-card-title>
 
     <div class="header-buttons">
+      <app-language-selector />
+
+      <div class="divider"></div>
       <app-recognition-control />
       <div class="divider"></div>
 
-    <button mat-icon-button color="warn" 
-            (click)="confirmTotalClear()" 
-            matTooltip="Total Reset (History, Answers, Context)">
-      <mat-icon>delete_forever</mat-icon>
-    </button>
+      <button mat-icon-button color="warn" (click)="confirmTotalClear()"
+        matTooltip="Total Reset (History, Answers, Context)">
+        <mat-icon>delete_forever</mat-icon>
+      </button>
     </div>
   </mat-card-header>
 
@@ -54,7 +56,7 @@
         }
         }
 
-        @if (messages().length <= 1) { <div class="placeholder"> 
+        @if (messages().length <= 1) { <div class="placeholder">
           <p>Conversation history...</p>
       </div>
       }
@@ -73,5 +75,3 @@
     <button mat-flat-button color="warn" [mat-dialog-close]="true">YES</button>
   </mat-dialog-actions>
 </ng-template>
-
-

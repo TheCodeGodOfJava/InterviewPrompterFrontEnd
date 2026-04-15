@@ -9,6 +9,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MarkdownComponent } from 'ngx-markdown';
 import { ChatService } from '../../service/chat-service';
 import { RecognitionControlComponent } from "../recognition-control/recognition-control.component";
+import { LanguageSelectorComponent } from "../language-selector/language-selector.component";
 
 @Component({
   selector: 'app-chat',
@@ -22,8 +23,9 @@ import { RecognitionControlComponent } from "../recognition-control/recognition-
     MatButtonModule,
     MatTooltipModule,
     MatDialogModule,
-    RecognitionControlComponent
-  ],
+    RecognitionControlComponent,
+    LanguageSelectorComponent
+],
   templateUrl: './chat.component.html',
   styleUrl: './chat.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
