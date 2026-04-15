@@ -1,0 +1,12 @@
+<div class="compact-control" [class.active]="audioService.isRecognitionActive()">
+      <mat-slide-toggle 
+        [checked]="audioService.isRecognitionActive()" 
+        (change)="onToggle($event.checked)"
+        color="primary"
+        [matTooltip]="audioService.isRecognitionActive() ? 'Recognition is LIVE' : 'Recognition is OFF'">
+        <div class="toggle-content">
+          <mat-icon>{{ audioService.isRecognitionActive() ? 'mic' : 'mic_off' }}</mat-icon>
+          <span class="label-text">STT</span>
+        </div>
+      </mat-slide-toggle>
+    </div>

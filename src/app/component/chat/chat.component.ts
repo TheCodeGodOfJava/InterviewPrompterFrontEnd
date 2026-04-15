@@ -8,6 +8,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MarkdownComponent } from 'ngx-markdown';
 import { ChatService } from '../../service/chat-service';
+import { RecognitionControlComponent } from "../recognition-control/recognition-control.component";
 
 @Component({
   selector: 'app-chat',
@@ -21,7 +22,8 @@ import { ChatService } from '../../service/chat-service';
     MatButtonModule,
     MatTooltipModule,
     MatDialogModule,
-  ],
+    RecognitionControlComponent
+],
   templateUrl: './chat.component.html',
   styleUrl: './chat.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

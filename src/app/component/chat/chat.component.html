@@ -3,8 +3,12 @@
   <mat-card-header>
     <mat-card-title>
       <mat-icon>chat</mat-icon>
-      Interview Chat
+      <span>Interview Chat</span>
     </mat-card-title>
+
+    <div class="header-buttons">
+      <app-recognition-control />
+    </div>
   </mat-card-header>
 
   <mat-card-content>
@@ -43,8 +47,7 @@
         }
         }
 
-        @if (messages().length <= 1) { <div class="placeholder">
-          <mat-icon>chat_bubble_outline</mat-icon>
+        @if (messages().length <= 1) { <div class="placeholder"> 
           <p>Conversation history...</p>
       </div>
       }
