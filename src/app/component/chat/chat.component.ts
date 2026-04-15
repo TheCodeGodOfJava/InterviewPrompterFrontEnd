@@ -23,7 +23,7 @@ import { RecognitionControlComponent } from "../recognition-control/recognition-
     MatTooltipModule,
     MatDialogModule,
     RecognitionControlComponent
-],
+  ],
   templateUrl: './chat.component.html',
   styleUrl: './chat.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -31,11 +31,14 @@ import { RecognitionControlComponent } from "../recognition-control/recognition-
 export class ChatComponent implements OnDestroy {
   private readonly scrollContainer = viewChild<ElementRef>('scrollContainer');
 
-  @ViewChild('deleteDialog') deleteDialog!: TemplateRef<void>;
+  @ViewChild('universalDialog') universalDialog!: TemplateRef<void>;
   private observer?: MutationObserver;
   private dialog = inject(MatDialog);
 
   protected messages;
+
+  protected dialogTitle = '';
+  protected dialogMessage = '';
 
   constructor(protected chatService: ChatService) {
     this.messages = this.chatService.messages;
@@ -74,20 +77,38 @@ export class ChatComponent implements OnDestroy {
       const el = container.nativeElement;
       el.scrollTo({
         top: el.scrollHeight,
-        behavior: 'auto' 
+        behavior: 'auto'
       });
     }
   }
 
-  confirmDeleteUpTo(messageId: string) {
-    this.dialog.open(this.deleteDialog, {
-      width: '300px'
+  private confirmAction(title: string, message: string, action: () => void) {
+    this.dialogTitle = title;
+    this.dialogMessage = message;
+
+    this.dialog.open(this.universalDialog, {
+      width: '350px'
     }).afterClosed().subscribe(result => {
       if (result === true) {
-        this.chatService.deleteUpToMessage(messageId);
+        action();
       }
     });
+  }
 
+  confirmDeleteUpTo(messageId: string) {
+    this.confirmAction(
+      'Delete history?',
+      'This will remove this message and all messages above it.',
+      () => this.chatService.deleteUpToMessage(messageId)
+    );
+  }
+
+  confirmTotalClear() {
+    this.confirmAction(
+      'Total Reset?',
+      'This will wipe EVERYTHING: chat history, screenshots, and AI analysis state. Proceed?',
+      () => this.chatService.clearAllHistory()
+    );
   }
 
   ngOnDestroy() {

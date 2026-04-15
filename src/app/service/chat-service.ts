@@ -3,14 +3,18 @@ import { Injectable, signal } from '@angular/core';
 import { Client } from '@stomp/stompjs';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import SockJS from 'sockjs-client';
-import { ChatMessage } from '../model/chat-message';
 import { AiUpdate } from '../model/ai-update';
+import { ChatMessage } from '../model/chat-message';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ChatService {
   private client!: Client;
+
+  private host = "localhost:8080";
+
+  private apiUrl = `http://${this.host}/api/chat/history`;
 
   public messages = signal<ChatMessage[]>([]);
 
@@ -29,9 +33,9 @@ export class ChatService {
 
   private connectWebSocket() {
     this.client = new Client({
-      brokerURL: 'ws://localhost:8080/ws',
+      brokerURL: `ws://${this.host}/ws`,
       reconnectDelay: 5000,
-      webSocketFactory: () => new SockJS('http://localhost:8080/ws'),
+      webSocketFactory: () => new SockJS(`http://${this.host}/ws`),
     });
 
     this.client.onConnect = () => {
@@ -69,7 +73,7 @@ export class ChatService {
   }
 
   private loadInitialHistory() {
-    this.http.get<ChatMessage[]>('http://localhost:8080/api/chat/history').subscribe({
+    this.http.get<ChatMessage[]>(this.apiUrl).subscribe({
       next: (data) => this.messages.set(data),
       error: (err) => console.error('Failed to load chat history', err),
     });
@@ -85,17 +89,27 @@ export class ChatService {
 
   deleteUpToMessage(id: string) {
     if (!id) return;
-    
-    this.http.delete(`http://localhost:8080/api/chat/history/up-to/${id}`).subscribe({
+
+    this.http.delete(`${this.apiUrl}/up-to/${id}`).subscribe({
       next: () => console.log(`Deleted history up to ${id}`),
       error: (err) => console.error('Failed to delete history', err)
     });
   }
 
   deleteSingleMessage(id: string) {
-    this.http.delete(`http://localhost:8080/api/chat/history/single/${id}`).subscribe({
+    this.http.delete(`${this.apiUrl}/single/${id}`).subscribe({
       next: () => console.log(`Deleted message ${id}`),
       error: (err) => console.error('Failed to delete message', err)
+    });
+  }
+
+  clearAllHistory() {
+    this.http.delete(`${this.apiUrl}/all`).subscribe({
+      next: () => {
+        this.aiResponseSubject.next({ answer: '', status: 'READY' });
+        console.log('Context and screen cleared successfully');
+      },
+      error: (err) => console.error('Failed to clear everything', err)
     });
   }
 
@@ -105,7 +119,7 @@ export class ChatService {
     if (this.client && this.client.active) {
       this.client.publish({
         destination: '/app/request-analysis',
-        body: JSON.stringify({ action: 'generate_now' }) 
+        body: JSON.stringify({ action: 'generate_now' })
       });
     } else {
       console.error('WebSocket is not connected. Cannot request analysis.');

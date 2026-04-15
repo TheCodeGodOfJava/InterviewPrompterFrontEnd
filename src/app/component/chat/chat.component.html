@@ -8,6 +8,13 @@
 
     <div class="header-buttons">
       <app-recognition-control />
+      <div class="divider"></div>
+
+    <button mat-icon-button color="warn" 
+            (click)="confirmTotalClear()" 
+            matTooltip="Total Reset (History, Answers, Context)">
+      <mat-icon>delete_forever</mat-icon>
+    </button>
     </div>
   </mat-card-header>
 
@@ -56,13 +63,15 @@
   </mat-card-content>
 </mat-card>
 
-<ng-template #deleteDialog>
-  <h2 mat-dialog-title>Delete history?</h2>
+<ng-template #universalDialog>
+  <h2 mat-dialog-title>{{ dialogTitle }}</h2>
   <mat-dialog-content>
-    This will remove this message and all messages above it.
+    {{ dialogMessage }}
   </mat-dialog-content>
   <mat-dialog-actions align="end">
     <button mat-button mat-dialog-close>NO</button>
     <button mat-flat-button color="warn" [mat-dialog-close]="true">YES</button>
   </mat-dialog-actions>
 </ng-template>
+
+
