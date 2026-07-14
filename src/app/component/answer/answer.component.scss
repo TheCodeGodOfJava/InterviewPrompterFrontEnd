@@ -101,9 +101,10 @@ mat-card-content {
 .scroll-container {
   flex: 1;                   
   overflow-y: auto;          
-  overflow-x: auto;          
+  overflow-x: hidden;          
   box-sizing: border-box;    
   min-height: 0;  
+  min-width: 0;
   padding: 24px;             /* Gives the text room to breathe */
   
   font-family: 'Roboto', sans-serif;
@@ -131,14 +132,16 @@ mat-card-content {
 
   table {
     display: block;
-    max-width: 100%;
+    width: 100%;
+    min-width: 0;
     overflow-x: auto;
     border-collapse: collapse;
   }
   
-  pre {
+  pre, code, table {
     max-width: 100%;
     overflow-x: auto;
+    box-sizing: border-box;
   }
 }
 
